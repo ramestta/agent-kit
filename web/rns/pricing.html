@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/favicon.svg"><link rel="apple-touch-icon" href="/favicon.svg">
+<title>Pricing — Rama Name Service</title>
+<meta name="description" content="Rama Name Service pricing: a flat 100 RAMA per year for any .rama name, any length. Register for 1 to 5 years and renew any time.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/site/rns.css">
+<style>
+.pricecard{max-width:620px;margin:38px auto 0;background:var(--card);border:1px solid var(--bd);border-radius:22px;padding:36px;text-align:center;backdrop-filter:blur(10px)}
+.pricebig{font-family:var(--disp);font-weight:600;font-size:3.6rem;line-height:1}
+.pricebig small{font-size:1.1rem;color:var(--tx2);font-family:var(--font)}
+.incl{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:26px;text-align:left}
+.incl li{list-style:none;display:flex;gap:10px;color:var(--tx2);font-size:.95rem}
+.incl .chk{color:var(--green);font-weight:800}
+@media(max-width:600px){.incl{grid-template-columns:1fr}}
+</style>
+<style id="mnav">@media(max-width:860px){
+  header .hin{position:relative}
+  header nav.top{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;gap:4px;background:rgba(7,7,12,.98);backdrop-filter:blur(18px);border-bottom:1px solid var(--bd);padding:12px 16px;max-height:78vh;overflow-y:auto;box-shadow:0 20px 40px rgba(0,0,0,.5)}
+  header nav.top.open{display:flex}
+  header nav.top a{padding:13px 14px;font-size:1rem;border-radius:12px;white-space:normal}
+  .burger{display:grid;place-items:center}
+  .hin{padding-left:18px;padding-right:18px}
+}
+@media(max-width:520px){
+  header .btn.pri{padding:9px 14px;font-size:.85rem}
+  .lname .sub{display:none}
+  h1{font-size:2.2rem!important}
+}</style>
+</head>
+<body>
+<div class="amb"></div><div class="grid-bg"></div>
+<header><div class="hin">
+  <a class="logo" href="/"><span class="mark">.r</span><span class="lname">Rama <span class="sub">Name Service</span></span></a>
+  <nav class="top">
+    <a href="/what.html">What it is</a><a href="/how.html">How to register</a><a href="/pricing.html" class="active">Pricing</a><a href="/use-cases.html">Use cases</a><a href="/">Search names</a>
+  </nav>
+  <a class="btn pri" href="/">Get your .rama →</a>
+  <button class="burger" onclick="document.querySelector('nav.top').classList.toggle('open')">☰</button>
+</div></header>
+
+<section class="pagehero wrap center">
+  <div class="chip">● Simple, honest pricing</div>
+  <h1>One flat price. <span class="g">Any name.</span></h1>
+  <p class="lead center" style="margin:20px auto 0">No premium tiers, no auctions, no surprises. Short names cost the same as long ones.</p>
+</section>
+
+<section class="wrap">
+  <div class="pricecard">
+    <div class="pricebig">100 <small>RAMA / year</small></div>
+    <p class="muted" style="color:var(--tx2);margin-top:10px">for every <code>.rama</code> name — 3 characters or 30, it's the same.</p>
+    <ul class="incl">
+      <li><span class="chk">✓</span><span>Full ownership for your chosen term</span></li>
+      <li><span class="chk">✓</span><span>Point it at any address, any time</span></li>
+      <li><span class="chk">✓</span><span>Profile records (avatar, URL, socials)</span></li>
+      <li><span class="chk">✓</span><span>Create unlimited sub-names</span></li>
+      <li><span class="chk">✓</span><span>Transfer to anyone</span></li>
+      <li><span class="chk">✓</span><span>Grace period after expiry to renew</span></li>
+    </ul>
+    <div class="cta" style="justify-content:center;margin-top:28px"><a class="btn pri" href="/">Check a name →</a></div>
+  </div>
+
+  <div class="center" style="max-width:640px;margin:56px auto 0"><p class="eyebrow">Choose your term</p>
+  <h2 style="margin-top:10px">Register for 1 to 5 years</h2></div>
+  <table class="ptable" style="max-width:620px;margin-left:auto;margin-right:auto">
+    <thead><tr><th>Term</th><th>Total</th><th></th></tr></thead>
+    <tbody>
+      <tr><td><b>1 year</b></td><td>100 RAMA</td><td class="muted" style="color:var(--tx3)">renew any time</td></tr>
+      <tr><td><b>2 years</b></td><td>200 RAMA</td><td></td></tr>
+      <tr><td><b>3 years</b></td><td>300 RAMA</td><td class="muted" style="color:var(--tx3)">popular</td></tr>
+      <tr><td><b>4 years</b></td><td>400 RAMA</td><td></td></tr>
+      <tr><td><b>5 years</b></td><td>500 RAMA</td><td class="muted" style="color:var(--tx3)">max term</td></tr>
+    </tbody>
+  </table>
+  <p class="center" style="color:var(--tx3);font-size:.9rem;margin-top:18px">Prices are read live from the on-chain Rama Name Service. Pay once with your wallet; renewals extend from your current expiry.</p>
+</section>
+
+<section class="band"><div class="wrap center">
+  <h2>Claim yours before someone else does</h2>
+  <div class="cta" style="justify-content:center"><a class="btn pri" href="/">Search .rama names →</a><a class="btn ghost" href="/use-cases.html">Why get one</a></div>
+</div></section>
+
+<footer><div class="wrap">
+  <div class="logo"><span class="mark">.r</span><span class="lname">Rama <span class="sub">Name Service</span></span></div>
+  <p style="margin-top:12px;max-width:60ch">Rama Name Service — readable <code>.rama</code> identities for people, businesses and AI agents on the Ramestta blockchain (chain 1370).</p>
+  <div class="fnav"><a href="/what.html">What it is</a><a href="/how.html">How to register</a><a href="/pricing.html">Pricing</a><a href="/use-cases.html">Use cases</a><a href="/">Search names</a><a href="https://ramestta.com">Ramestta.com</a><a href="https://agents.ramestta.com">Agent OS</a></div>
+</div></footer>
+</body>
+</html>

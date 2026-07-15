@@ -1,0 +1,21 @@
+{
+  "network": "ramesttaTestnet",
+  "chainId": 1371,
+  "upgradeable": true,
+  "deployedAt": "2026-07-12T07:40:09.785Z",
+  "owner": "0x289550077E53Ee2aAcdB04AAd6f77ad8DEB7Af39",
+  "deps": {
+    "rns": "0x3F0d1173b5E78B72ea248cA17CC07bf93cBfD6f6",
+    "registry": "0xAA0C407015E2c88591af13D20fa65883DCf030cF"
+  },
+  "contracts": {
+    "AgentTreasury": "0x627fE730ab2A76Ba990E68C4A2E48F8f00F70C31",
+    "AgentPermissions": "0x04d1827Dcf5C7228dFa6F84523DC37386e9B1D82",
+    "Scheduler": "0xE176f3FD56Ad24d68520fFAdF35D923faCf83c1A",
+    "SLAInsurancePool": "0x2ee37a5E743Ffdf5405Db95163079EBD499b4Df2",
+    "AgentWalletBeacon": "0x8ae3b8084FcB6B98293747772EFc2b38Bc4b7495",
+    "AgentBootHelper": "0x443e47E0F01bB18aFC7D7B656D0DA3AEC86510ee",
+    "AgentReputation": "0x36aDf4e6FA15e498D6E79A4BC1C64706B9F90B76",
+    "AgentMemory": "0x676510bE57B8226d7a66D3ad815096a238142220"
+  }
+}

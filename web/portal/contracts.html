@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/favicon.svg"><link rel="apple-touch-icon" href="/favicon.svg">
+<title>Contracts — Ramestta AI Agent OS</title>
+<meta name="description" content="The nine on-chain contracts behind Ramestta AI Agent OS — what each one does, how they connect, their live mainnet addresses, and how governance works.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+.ct-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:38px}
+.ct-card{display:grid;grid-template-columns:48px 1fr;gap:14px;background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:20px 22px;transition:.18s}
+.ct-card:hover{border-color:var(--bdh);background:var(--card2)}
+.ct-card .ci{width:48px;height:48px;border-radius:12px;display:grid;place-items:center;font-size:1.4rem;background:rgba(124,107,242,.12);border:1px solid rgba(124,107,242,.25)}
+.ct-card .cn{font-weight:650;font-size:1.05rem}
+.ct-card .cr{color:var(--tx2);font-size:.92rem;margin:5px 0 9px}
+.ct-card .cd{color:var(--tx3);font-size:.85rem;margin-bottom:9px}
+.ct-card a.addr{font-family:ui-monospace,monospace;font-size:.75rem;color:var(--pri2);word-break:break-all}
+.ct-card a.addr:hover{text-decoration:underline}
+.ct-gov{margin-top:30px;background:linear-gradient(180deg,rgba(63,185,143,.06),transparent);border:1px solid rgba(63,185,143,.22);border-radius:16px;padding:22px 26px;display:flex;gap:14px;align-items:flex-start}
+.ct-gov .gi{font-size:1.5rem}.ct-gov b{color:var(--tx)}.ct-gov p{color:var(--tx2);font-size:.96rem}
+@media(max-width:760px){.ct-cards{grid-template-columns:1fr}.ct-card{grid-template-columns:1fr}}
+</style>
+<style id="mnav">@media(max-width:860px){
+  header .hin{position:relative}
+  header nav.top{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;gap:4px;background:rgba(7,7,12,.98);backdrop-filter:blur(18px);border-bottom:1px solid var(--bd);padding:12px 16px;max-height:78vh;overflow-y:auto;box-shadow:0 20px 40px rgba(0,0,0,.5)}
+  header nav.top.open{display:flex}
+  header nav.top a{padding:13px 14px;font-size:1rem;border-radius:12px;white-space:normal}
+  .burger{display:grid;place-items:center}
+  .hin{padding-left:18px;padding-right:18px}
+}
+@media(max-width:520px){
+  header .btn.pri{padding:9px 14px;font-size:.85rem}
+  .lname .sub{display:none}
+  h1{font-size:2.2rem!important}
+}</style>
+</head>
+<body>
+<div class="amb"></div><div class="grid-bg"></div>
+<header><div class="hin">
+  <a class="logo" href="/"><span class="mark">R</span><span class="lname">Agent <span class="sub">OS</span></span></a>
+  <nav class="top">
+    <a href="/what.html">What it is</a><a href="/how.html">How it works</a><a href="/use-cases.html">Use cases</a><a href="/capabilities.html">Capabilities</a><a href="/contracts.html" class="active">Contracts</a><a href="/docs.html">Docs</a><a href="/console/">Console</a><a href="/safety.html">Safety</a>
+  </nav>
+  <a class="btn pri" href="/console/">Open Console →</a>
+  <button class="burger" onclick="document.querySelector('nav.top').classList.toggle('open')">☰</button>
+</div></header>
+
+<section class="pagehero wrap">
+  <div class="chip">● On-chain · chain 1370</div>
+  <h1>The contracts — <span class="g">and what each one does</span></h1>
+  <p class="lead" style="margin-top:18px">Ramestta Agent OS isn't one big program. It's <b>nine small contracts</b>, each with a single job.
+  Together they let an agent boot, obey your rules, pay its own gas, and run on schedule — with no hidden server.
+  Every address here is a verifiable, upgradeable proxy on RamaScan.</p>
+</section>
+
+<!-- how they connect -->
+<section class="wrap" style="padding-top:12px">
+  <p class="eyebrow">How the pieces fit</p>
+  <h2 style="margin-top:10px">One agent, nine cooperating contracts</h2>
+  <div class="fig">
+    <svg viewBox="0 0 920 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="BootHelper creates the agent wallet; the wallet checks Permissions, is funded by the Treasury, and registers tasks with the Scheduler which keepers run; RNS names it and Memory shares state.">
+      <g font-family="Inter,sans-serif" font-size="13" text-anchor="middle">
+        <rect x="24" y="140" width="150" height="60" rx="13" fill="rgba(124,107,242,.14)" stroke="#7c6bf2"/><text x="99" y="166" font-weight="700">🚀 BootHelper</text><text x="99" y="185" fill="#a2a2b4" font-size="11">creates the agent</text>
+        <rect x="270" y="130" width="180" height="80" rx="15" fill="rgba(155,135,252,.16)" stroke="#9b87fc"/><text x="360" y="162" font-weight="700" font-size="14">👛 Agent Wallet</text><text x="360" y="182" fill="#c9c2f5" font-size="11">holds funds · runs actions</text>
+        <rect x="560" y="24" width="180" height="58" rx="13" fill="rgba(232,185,85,.10)" stroke="#e8b955"/><text x="650" y="49" font-weight="700">🛡️ Permissions</text><text x="650" y="68" fill="#a2a2b4" font-size="11">rules checked first</text>
+        <rect x="560" y="140" width="180" height="58" rx="13" fill="rgba(63,185,143,.10)" stroke="#3fb98f"/><text x="650" y="165" font-weight="700">⛽ Treasury</text><text x="650" y="184" fill="#a2a2b4" font-size="11">sponsors the gas</text>
+        <rect x="560" y="256" width="180" height="58" rx="13" fill="rgba(109,182,255,.10)" stroke="#6db6ff"/><text x="650" y="281" font-weight="700">⏰ Scheduler</text><text x="650" y="300" fill="#a2a2b4" font-size="11">runs tasks on time</text>
+        <rect x="800" y="256" width="96" height="58" rx="13" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.18)"/><text x="848" y="281" font-weight="600" font-size="12">⚙️ Keepers</text><text x="848" y="300" fill="#a2a2b4" font-size="10">execute</text>
+        <rect x="24" y="40" width="150" height="52" rx="12" fill="rgba(124,107,242,.06)" stroke="rgba(124,107,242,.3)"/><text x="99" y="63" font-weight="600" font-size="12">🏷️ RNS</text><text x="99" y="80" fill="#a2a2b4" font-size="10">gives a .rama name</text>
+        <rect x="24" y="248" width="150" height="52" rx="12" fill="rgba(124,107,242,.06)" stroke="rgba(124,107,242,.3)"/><text x="99" y="271" font-weight="600" font-size="12">🧠 Memory</text><text x="99" y="288" fill="#a2a2b4" font-size="10">shared team state</text>
+      </g>
+      <path class="fl" stroke="#7c6bf2" d="M174 170 H270"/><path class="fl" stroke="#e8b955" d="M450 158 C505 130 520 70 560 55"/><path class="fl" stroke="#3fb98f" d="M450 170 H560"/><path class="fl" stroke="#6db6ff" d="M450 182 C505 210 520 270 560 285"/><path class="fl s" stroke="#6db6ff" d="M740 285 H800"/><path class="fl s" stroke="rgba(124,107,242,.4)" d="M99 92 V140"/><path class="fl s" stroke="rgba(124,107,242,.4)" d="M99 248 V210"/>
+      <text x="500" y="120" text-anchor="middle" fill="#a2a2b4" font-size="11" font-family="Inter,sans-serif">every action → rules → gas → done</text>
+    </svg>
+    <p class="figcap">The agent wallet is the centre; every value-moving action passes the Permissions rulebook before it happens.</p>
+  </div>
+</section>
+
+<!-- the cards -->
+<section class="wrap" style="padding-top:12px">
+  <h2>Each contract, in plain words</h2>
+  <div class="ct-cards">
+    <div class="ct-card"><div class="ci">🚀</div><div><div class="cn">AgentBootHelper</div><div class="cr">The front door. One call creates a whole agent — name, wallet, gas account and rulebook — in a single transaction, so nothing is left half-set-up.</div><div class="cd">Deploys the wallet, opens the Treasury account, registers identity &amp; permissions atomically.</div><a class="addr" href="https://ramascan.com/address/0x0781EAc0486cB177864586e4DfC2077E8B88bBEa" target="_blank" rel="noreferrer">0x0781EAc0486cB177864586e4DfC2077E8B88bBEa</a></div></div>
+    <div class="ct-card"><div class="ci">👛</div><div><div class="cn">AgentWallet <span style="color:var(--tx3);font-weight:400;font-size:.85rem">(beacon)</span></div><div class="cr">Each agent's own smart-contract wallet. Holds its funds and executes its actions — but only inside your limits.</div><div class="cd">Two paths: sovereign <code>execute()</code> by the owner, and <code>executeMeta()</code> — signed by a scoped session key, permission-checked every time.</div><a class="addr" href="https://ramascan.com/address/0x54ac9E097D709482101326AaFB59E990096ebcc3" target="_blank" rel="noreferrer">0x54ac9E097D709482101326AaFB59E990096ebcc3</a></div></div>
+    <div class="ct-card"><div class="ci">🛡️</div><div><div class="cn">AgentPermissions</div><div class="cr">The rulebook. Spend caps, allow-lists, human approvals and session-key powers — every value-moving action is checked here first.</div><div class="cd">Per-token limits, per-(target,selector) capability lists, an approval inbox, and instant pause / revoke.</div><a class="addr" href="https://ramascan.com/address/0xA1C395a5AeF2b584982A1cEC27F10f33D29e25a0" target="_blank" rel="noreferrer">0xA1C395a5AeF2b584982A1cEC27F10f33D29e25a0</a></div></div>
+    <div class="ct-card"><div class="ci">⛽</div><div><div class="cn">AgentTreasury</div><div class="cr">The gas tank. Sponsors agents' transaction fees so they "just work", with a per-agent monthly quota.</div><div class="cd">Atomic sponsored execution — quota + refund only settle if the agent's action succeeds.</div><a class="addr" href="https://ramascan.com/address/0x2a5EBF934D72d3b4b65F6d4A85dCB8639C8cfD8d" target="_blank" rel="noreferrer">0x2a5EBF934D72d3b4b65F6d4A85dCB8639C8cfD8d</a></div></div>
+    <div class="ct-card"><div class="ci">⏰</div><div><div class="cn">Scheduler</div><div class="cr">The heartbeat. Stores "run this at this time" tasks on-chain so an open keeper market executes them — no server needed.</div><div class="cd">Time / block / condition triggers, prepaid keeper fees, catch-up protection and failure auto-pause.</div><a class="addr" href="https://ramascan.com/address/0xb01dcA10Dff6242c46d69CBB9EfcC514a9995F23" target="_blank" rel="noreferrer">0xb01dcA10Dff6242c46d69CBB9EfcC514a9995F23</a></div></div>
+    <div class="ct-card"><div class="ci">🏷️</div><div><div class="cn">RAMANameService (RNS)</div><div class="cr">The identity layer. Turns a long address into a readable name like <code>mybot.rama</code>.</div><div class="cd">Search, register, resolve, renew and manage names; the readable identity every agent boots with.</div><a class="addr" href="https://ramascan.com/address/0xde4ACb2fB2b69c96c2312887c2656Ee5Ff6290EB" target="_blank" rel="noreferrer">0xde4ACb2fB2b69c96c2312887c2656Ee5Ff6290EB</a></div></div>
+    <div class="ct-card"><div class="ci">🏅</div><div><div class="cn">AgentReputation</div><div class="cr">The track record. Turns good on-chain behaviour into a score that can raise an agent's sponsored-gas tier.</div><div class="cd">Increase-only, allow-listed reporters, per-window caps — reputation can promote a tier but never demote or drain.</div><a class="addr" href="https://ramascan.com/address/0x774a0da308cD92a09BCF08ff896733fdBDC7786a" target="_blank" rel="noreferrer">0x774a0da308cD92a09BCF08ff896733fdBDC7786a</a></div></div>
+    <div class="ct-card"><div class="ci">🧠</div><div><div class="cn">AgentMemory</div><div class="cr">A shared notebook. Lets a team of agents read and write a common, permissioned state to coordinate a job.</div><div class="cd">Membership-gated "spaces", versioned keys and optimistic writes; values are meant to be client-side encrypted.</div><a class="addr" href="https://ramascan.com/address/0x571e0C76594348038ed4B9361211Ea2A50bd24ac" target="_blank" rel="noreferrer">0x571e0C76594348038ed4B9361211Ea2A50bd24ac</a></div></div>
+    <div class="ct-card"><div class="ci">🛟</div><div><div class="cn">SLAInsurancePool</div><div class="cr">The safety net. Pays capped compensation if a scheduled task provably misses its window — bounded, opt-in cover.</div><div class="cd">Non-refundable premium, claim bounded to a multiple of premium, per-creator + global epoch budgets.</div><a class="addr" href="https://ramascan.com/address/0x24fb0B59356799bc985AC6B0476Da9e9180de3bf" target="_blank" rel="noreferrer">0x24fb0B59356799bc985AC6B0476Da9e9180de3bf</a></div></div>
+  </div>
+
+  <div class="ct-gov">
+    <span class="gi">🏛️</span>
+    <p><b>Who controls it:</b> every contract is an upgradeable proxy governed by an on-chain <b>24-hour timelock</b>, which is driven by a <b>2-of-3 operations multisig</b>. The logic can improve without ever changing these addresses — and no upgrade can happen instantly or in secret; there's always a public 24-hour window first. <a href="/safety.html" style="color:var(--pri2)">See the full safety model →</a></p>
+  </div>
+</section>
+
+<section class="band"><div class="wrap center">
+  <h2>Want to build on these?</h2>
+  <div class="cta" style="justify-content:center"><a class="btn pri" href="/docs.html">Developer docs →</a><a class="btn ghost" href="/how.html">See how it works</a></div>
+</div></section>
+
+<footer><div class="wrap">
+  <div class="logo"><span class="mark">R</span><span class="lname">Agent <span class="sub">OS</span></span></div>
+  <p style="margin-top:12px;max-width:60ch">Ramestta AI Agent OS — a safe home for autonomous AI agents on the Ramestta blockchain (chain 1370). A human is always in control.</p>
+  <div class="fnav"><a href="/what.html">What it is</a><a href="/how.html">How it works</a><a href="/use-cases.html">Use cases</a><a href="/capabilities.html">Capabilities</a><a href="/contracts.html">Contracts</a><a href="/safety.html">Safety</a><a href="/docs.html">Docs</a><a href="/console/">Console</a></div>
+</div></footer>
+</body>
+</html>

@@ -1,0 +1,37 @@
+# Smithery config — lists the Ramestta Agent MCP server so any MCP client
+# (Claude Desktop, Cursor, etc.) can install and drive a Ramestta AI agent.
+# https://smithery.ai/docs
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    required: ["agentKey", "agentName"]
+    properties:
+      agentKey:
+        type: string
+        title: Agent controller key
+        description: "The controller private key (0x...) of your booted agent. Kept locally; never sent anywhere but the RPC you sign with."
+      agentName:
+        type: string
+        title: Agent .rama name
+        description: "Your booted agent name without the .rama suffix (e.g. \"yieldhunter\")."
+      network:
+        type: string
+        title: Network
+        enum: ["mainnet", "testnet"]
+        default: "testnet"
+        description: "Ramestta network. Start on testnet."
+  commandFunction: |
+    (config) => ({
+      command: "node",
+      args: ["server.js"],
+      env: {
+        AGENT_KEY: config.agentKey,
+        AGENT_NAME: config.agentName,
+        RAMESTTA_NETWORK: config.network || "testnet"
+      }
+    })
+  exampleConfig:
+    agentKey: "0xYOUR_CONTROLLER_PRIVATE_KEY"
+    agentName: "yieldhunter"
+    network: "testnet"

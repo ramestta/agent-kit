@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/favicon.svg"><link rel="apple-touch-icon" href="/favicon.svg">
+<title>How to register a .rama name — Rama Name Service</title>
+<meta name="description" content="Register a .rama name in four steps: search availability, register for a term, point it at your address, then manage or renew it any time.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/site/rns.css">
+<style>
+.steps{display:grid;gap:16px;margin-top:40px}
+.step{display:grid;grid-template-columns:60px 1fr;gap:20px;background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:26px 28px;align-items:start}
+.step .n{width:50px;height:50px;border-radius:14px;display:grid;place-items:center;font-family:var(--disp);font-weight:700;font-size:1.4rem;background:linear-gradient(135deg,rgba(124,107,242,.25),rgba(155,135,252,.12));border:1px solid rgba(124,107,242,.3);color:#fff}
+.step h3{font-size:1.25rem}.step p{color:var(--tx2);margin-top:6px}
+.step .note{margin-top:10px;font-size:.85rem;color:var(--pri2);background:rgba(124,107,242,.1);border:1px solid rgba(124,107,242,.22);border-radius:999px;padding:4px 12px;display:inline-block}
+@media(max-width:600px){.step{grid-template-columns:1fr}}
+</style>
+<style id="mnav">@media(max-width:860px){
+  header .hin{position:relative}
+  header nav.top{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;gap:4px;background:rgba(7,7,12,.98);backdrop-filter:blur(18px);border-bottom:1px solid var(--bd);padding:12px 16px;max-height:78vh;overflow-y:auto;box-shadow:0 20px 40px rgba(0,0,0,.5)}
+  header nav.top.open{display:flex}
+  header nav.top a{padding:13px 14px;font-size:1rem;border-radius:12px;white-space:normal}
+  .burger{display:grid;place-items:center}
+  .hin{padding-left:18px;padding-right:18px}
+}
+@media(max-width:520px){
+  header .btn.pri{padding:9px 14px;font-size:.85rem}
+  .lname .sub{display:none}
+  h1{font-size:2.2rem!important}
+}</style>
+</head>
+<body>
+<div class="amb"></div><div class="grid-bg"></div>
+<header><div class="hin">
+  <a class="logo" href="/"><span class="mark">.r</span><span class="lname">Rama <span class="sub">Name Service</span></span></a>
+  <nav class="top">
+    <a href="/what.html">What it is</a><a href="/how.html" class="active">How to register</a><a href="/pricing.html">Pricing</a><a href="/use-cases.html">Use cases</a><a href="/">Search names</a>
+  </nav>
+  <a class="btn pri" href="/">Get your .rama →</a>
+  <button class="burger" onclick="document.querySelector('nav.top').classList.toggle('open')">☰</button>
+</div></header>
+
+<section class="pagehero wrap center">
+  <div class="chip">● Four simple steps</div>
+  <h1>Get your name in <span class="g">under a minute</span></h1>
+  <p class="lead center" style="margin:20px auto 0">No account, no email. Just your wallet and one transaction. Here's exactly what happens.</p>
+  <div class="cta" style="justify-content:center"><a class="btn pri" href="/">Start now →</a><a class="btn ghost" href="/pricing.html">See pricing</a></div>
+</section>
+
+<section class="wrap">
+  <div class="steps">
+    <div class="step"><div class="n">1</div><div>
+      <h3>🔎 Search for a name</h3>
+      <p>Open the app and type the name you want — say <code>ravi</code>. It instantly tells you whether <code>ravi.rama</code> is available. Try a few until you find the one you love.</p>
+      <span class="note">3+ characters · letters and numbers</span>
+    </div></div>
+    <div class="step"><div class="n">2</div><div>
+      <h3>📝 Register it</h3>
+      <p>Choose how long you want it — 1 to 5 years — and confirm one transaction in your wallet. The name is now registered to your address, on-chain and verifiable.</p>
+      <span class="note">Flat 100 RAMA per year, any length</span>
+    </div></div>
+    <div class="step"><div class="n">3</div><div>
+      <h3>🎯 Point it at your address</h3>
+      <p>Set which wallet the name resolves to (it defaults to yours). From now on, anyone sending to <code>ravi.rama</code> reaches that address. You can change the target any time.</p>
+      <span class="note">Add profile records too — avatar, URL, socials</span>
+    </div></div>
+    <div class="step"><div class="n">4</div><div>
+      <h3>🔁 Manage &amp; renew</h3>
+      <p>From the app you can update the address, add sub-names like <code>pay.ravi.rama</code>, transfer the name to someone else, or renew before it expires to keep it forever.</p>
+      <span class="note">A short grace period protects you after expiry</span>
+    </div></div>
+  </div>
+  <div class="cta" style="justify-content:center;margin-top:36px"><a class="btn pri" href="/">Search a name →</a><a class="btn ghost" href="/use-cases.html">What can I use it for?</a></div>
+</section>
+
+<section class="band"><div class="wrap center">
+  <h2>That's it — your name is yours</h2>
+  <p class="lead center" style="margin-top:12px">Register once, use it everywhere on Ramestta.</p>
+  <div class="cta" style="justify-content:center"><a class="btn pri" href="/">Get your .rama →</a></div>
+</div></section>
+
+<footer><div class="wrap">
+  <div class="logo"><span class="mark">.r</span><span class="lname">Rama <span class="sub">Name Service</span></span></div>
+  <p style="margin-top:12px;max-width:60ch">Rama Name Service — readable <code>.rama</code> identities for people, businesses and AI agents on the Ramestta blockchain (chain 1370).</p>
+  <div class="fnav"><a href="/what.html">What it is</a><a href="/how.html">How to register</a><a href="/pricing.html">Pricing</a><a href="/use-cases.html">Use cases</a><a href="/">Search names</a><a href="https://ramestta.com">Ramestta.com</a><a href="https://agents.ramestta.com">Agent OS</a></div>
+</div></footer>
+</body>
+</html>

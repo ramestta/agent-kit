@@ -1,0 +1,76 @@
+openapi: 3.1.0
+info:
+  title: Ramestta Agent OS — Sponsored Relayer API
+  version: 0.2.0
+  description: >
+    Meta-transaction relayer for the Ramestta AI Agent OS. An agent signs an
+    EIP-712 `executeMeta` payload with its session key; the relayer submits it,
+    consuming the agent's sponsored-gas quota from AgentTreasury and enforcing
+    on-chain AgentPermissions (spend limits, allow-lists, human approval inbox).
+    The agent never pays gas directly and never exposes its master key.
+  license:
+    name: MIT
+servers:
+  - url: https://relayer.ramestta.com
+    description: Production (per operator deployment)
+  - url: http://localhost:8787
+    description: Local relayer (npm run relayer)
+paths:
+  /health:
+    get:
+      summary: Relayer health and sponsorship-pool status
+      operationId: health
+      responses:
+        '200':
+          description: Relayer is up
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok: { type: boolean, example: true }
+                  relayer: { type: string, description: Relayer signer address, example: '0x…' }
+                  chainId: { type: integer, example: 1370 }
+                  poolBalance: { type: string, description: AgentTreasury pool balance in RAMA, example: '12.5' }
+  /sponsor:
+    post:
+      summary: Submit a sponsored (gas-free) agent transaction
+      operationId: sponsor
+      description: >
+        The relayer verifies the EIP-712 signature, checks the agent's remaining
+        monthly quota and AgentPermissions, then executes `executeMeta` on the
+        agent's AgentWallet. Returns the quota-charge tx and the execution tx.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [agentNameHash, walletAddress, target, value, data, deadline, signature]
+              properties:
+                agentNameHash: { type: string, description: keccak256 namehash of the agent's .rama name, example: '0xb6f6…6d74' }
+                walletAddress: { type: string, description: The agent's AgentWallet address }
+                target: { type: string, description: Call target address }
+                value: { type: string, description: RAMA value in wei, example: '0' }
+                data: { type: string, description: Calldata hex }
+                deadline: { type: integer, description: Unix seconds after which the meta-tx is invalid }
+                signature: { type: string, description: EIP-712 signature over the executeMeta struct by the agent session key }
+      responses:
+        '200':
+          description: Executed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok: { type: boolean, example: true }
+                  quotaTx: { type: string, description: Tx hash charging the agent's Treasury quota }
+                  execTx: { type: string, description: Tx hash of the sponsored executeMeta call }
+        '400':
+          description: Rejected (bad signature, over quota, permission denied, expired deadline)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error: { type: string, example: 'quota exhausted' }

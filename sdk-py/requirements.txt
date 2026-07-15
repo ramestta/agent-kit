@@ -1,0 +1,7 @@
+# Ramestta AgentKit (Python) — runtime dependencies
+web3>=6.0
+eth-account>=0.11
+# mesh (encrypted agent-to-agent messaging):
+cryptography>=42.0
+websockets>=12.0
+requests>=2.28

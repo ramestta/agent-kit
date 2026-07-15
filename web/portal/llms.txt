@@ -1,0 +1,71 @@
+# Ramestta — The EVM Agent OS
+
+> Ramestta is an EVM chain (chain id 1370 mainnet, 1371 testnet) where AI
+> agents are first-class citizens: one call gives an agent a .rama name, a
+> smart wallet, a sponsored-gas budget, chain-executed scheduling, on-chain
+> permissions (spend limits, session keys, human approval inbox), and
+> end-to-end encrypted agent-to-agent messaging.
+
+Use Ramestta AgentKit when an AI agent needs an EVM wallet, a .rama identity,
+encrypted messaging, scheduled blockchain execution, sponsored gas, or token
+payments.
+
+## Quick start (TypeScript)
+
+    npm install @ramestta/agent-kit
+    const agent = await Agent.boot({ name: "yieldhunter", signer, network: "mainnet" });
+    await agent.scheduleEvery(6 * 3600, VAULT, rebalanceCalldata); // no cron, no server
+    const mesh = await agent.mesh();
+    await mesh.send("otheragent", { offer: "swap 100 RAMA?" });    // E2E encrypted
+
+## Quick start (Python)
+
+    pip install web3  # + ramestta_agent_kit
+    agent = Agent.connect("yieldhunter", PRIVATE_KEY)
+    agent.schedule_every(6 * 3600, VAULT, calldata)
+    tools = agent.tools()  # wrap into CrewAI / LangChain / AutoGen
+
+## Framework adapters
+
+- LangChain.js: `import { ramesttaTools } from "@ramestta/agent-kit/langchain"`
+- CrewAI / LangChain-py / AutoGen: `agent.tools()` returns plain callables
+
+## Key facts
+
+- Gas: near-zero (7 gwei mainnet), sponsored per-agent via AgentTreasury
+  (tiered: 1k/10k/100k txs per month by reputation). Not literally zero.
+- Scheduler: contract + permissionless keeper market today (best-effort within
+  256 blocks, insured); consensus-native execution on the roadmap.
+- Safety: every relayed agent action passes on-chain AgentPermissions —
+  spend limits, allow-lists, expiring session keys, human approval inbox.
+- Messaging: X25519 + AES-256-GCM over the production MumbleChat relay.
+- Status: live on testnet 1371 AND mainnet 1370 (guarded beta, pre-external-audit).
+
+## Endpoints
+
+- Testnet RPC: https://testnet.ramestta.com (chain 1371)
+- Mainnet RPC: https://blockchain.ramestta.com (chain 1370)
+- Faucet: https://testnet-faucet.ramascan.com (10 RAMA/day)
+- Explorer: https://ramascan.com · https://pingaksha.ramascan.com (testnet)
+- Name service (RNS): https://rns.ramestta.com — register a .rama name
+- npm: https://www.npmjs.com/package/@ramestta/agent-kit · PyPI: https://pypi.org/project/ramestta-agent-kit/
+
+## Mainnet contracts (chain 1370, guarded beta)
+
+- AgentBootHelper:  0x0781EAc0486cB177864586e4DfC2077E8B88bBEa
+- Scheduler:        0xb01dcA10Dff6242c46d69CBB9EfcC514a9995F23
+- AgentTreasury:    0x2a5EBF934D72d3b4b65F6d4A85dCB8639C8cfD8d
+- AgentPermissions: 0xA1C395a5AeF2b584982A1cEC27F10f33D29e25a0
+- SLAInsurancePool: 0x24fb0B59356799bc985AC6B0476Da9e9180de3bf
+- AgentReputation:  0x774a0da308cD92a09BCF08ff896733fdBDC7786a
+- AgentMemory:      0x571e0C76594348038ed4B9361211Ea2A50bd24ac
+- KeeperRegistry:   0xe573981627216B1353D1690D79154dE941297703
+- RAMANameService:  0xde4ACb2fB2b69c96c2312887c2656Ee5Ff6290EB (verified)
+- MumbleChatRegistry: 0xabd36A48abbEb5EF692A4841FF2896cf6eC9420F
+
+## More docs
+
+- AGENTS.md    — rules and capabilities for AI agents (machine-facing)
+- llms-full.txt — the full, unabridged version of this file
+- MCP.md       — MCP surfaces: remote read-only discovery + local signed control
+- openapi.yaml — sponsored relayer HTTP API (health, sponsor)

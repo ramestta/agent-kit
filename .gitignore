@@ -1,0 +1,26 @@
+node_modules/
+artifacts/
+cache/
+coverage/
+.env
+deployments.local.json
+keeper/keeper-keys.json
+agent-sender.json
+agent-sender-*.json
+KEYS_AND_ENV.md
+prod-deployer.json
+.env.production
+send-real-message.js
+web-key-responder.js
+agent-autoresponder.js
+agent-runtime/
+relayer/relayer-key.json
+multisig/signers.json
+
+# operational state / build output (not source)
+.timelock-*.json
+sdk-py/dist/
+sdk-py/**/__pycache__/
+reputation/.checkpoint
+reputation/.processed
+demo-agent-controller.json

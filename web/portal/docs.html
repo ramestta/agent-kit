@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#08080B" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=1" />
+<title>Docs — Ramestta Agent OS</title>
+<meta name="description" content="Developer documentation for the Ramestta Agent OS: getting started, SDK reference, scheduling, messaging, permissions, contracts, MCP and the relayer API." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#08080B;--bg2:#0F0F13;--card:#121216;--tx:#F4F4F7;--tx2:#9A9AA6;--tx3:#66666F;--ac:#7C6BF2;--acl:#A796FB;--grad:linear-gradient(135deg,#6E56F0,#9B87FC);--bd:rgba(255,255,255,.07);--bdh:rgba(255,255,255,.16);--font:'Inter',-apple-system,sans-serif;--disp:'Fraunces','Times New Roman',Georgia,serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font-family:var(--font);background:var(--bg);color:var(--tx);line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--acl);text-decoration:none}a:hover{text-decoration:underline}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.86em;background:rgba(124,107,242,.12);color:#c9bcff;padding:2px 6px;border-radius:6px}
+pre{background:#0b0b0f;border:1px solid var(--bd);border-radius:12px;padding:18px;overflow-x:auto;font-family:ui-monospace,Menlo,monospace;font-size:.84rem;line-height:1.6;color:#c3b9ef;margin:14px 0}
+pre code{background:none;padding:0;color:inherit}
+header{position:sticky;top:0;z-index:50;background:rgba(8,8,11,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--bd)}
+.hin{max-width:1200px;margin:0 auto;padding:0 22px;height:64px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.logo{display:flex;align-items:center;gap:10px}
+.mark{width:36px;height:36px;border-radius:11px;flex-shrink:0;box-shadow:0 6px 18px rgba(124,107,242,.35),inset 0 1px 0 rgba(255,255,255,.2)}
+.lname{font-family:var(--disp);font-weight:600;font-size:1.18rem}.lname .s{font-family:var(--font);font-weight:500;font-size:.9rem;color:var(--tx2)}
+.htabs{display:flex;gap:6px}.htabs a{color:var(--tx2);font-size:.9rem;font-weight:600;padding:7px 12px;border-radius:999px}.htabs a:hover{color:var(--tx);background:rgba(124,107,242,.1);text-decoration:none}.htabs a.on{color:var(--tx);background:rgba(124,107,242,.15)}
+.layout{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:230px 1fr;gap:36px;padding:0 22px}
+aside{position:sticky;top:64px;align-self:start;height:calc(100vh - 64px);overflow-y:auto;padding:28px 0;scrollbar-width:thin}
+aside h4{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--tx3);margin:18px 0 8px}
+aside a{display:block;color:var(--tx2);font-size:.9rem;padding:5px 10px;border-radius:8px;border-left:2px solid transparent;transition:color .18s ease,background .18s ease,border-color .18s ease}
+aside a:hover{color:var(--tx);background:var(--card);text-decoration:none}
+aside a.active{color:var(--tx);font-weight:600;border-left-color:var(--ac);background:linear-gradient(90deg,rgba(124,107,242,.2),rgba(124,107,242,.05));box-shadow:inset 0 0 0 1px rgba(124,107,242,.13)}
+main{padding:36px 0 90px;min-width:0}
+main h1{font-family:var(--disp);font-weight:600;font-size:2.4rem;letter-spacing:-.02em;margin-bottom:14px}
+main h2{font-family:var(--disp);font-weight:600;font-size:1.6rem;letter-spacing:-.01em;margin:44px 0 12px;padding-top:12px;border-top:1px solid var(--bd)}
+main h3{font-size:1.1rem;margin:26px 0 8px}
+main p{color:var(--tx2);margin:12px 0}
+main ul,main ol{color:var(--tx2);margin:12px 0;padding-left:22px}main li{margin:6px 0}
+.lead{font-size:1.12rem;color:var(--tx2)}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:.9rem}
+.tbl th,.tbl td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--bd)}
+.tbl th{color:var(--tx3);font-weight:600;font-size:.8rem;text-transform:uppercase;letter-spacing:.04em}
+.tbl td code{word-break:break-all}
+.note{background:rgba(124,107,242,.08);border:1px solid rgba(124,107,242,.25);border-radius:10px;padding:14px 16px;margin:16px 0;font-size:.92rem;color:var(--tx2)}
+.note strong{color:var(--acl)}
+.warn{background:rgba(226,167,59,.08);border-color:rgba(226,167,59,.3)}.warn strong{color:#e0a93b}
+.tag{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--acl);border:1px solid var(--bd);border-radius:999px;padding:3px 9px;margin-left:8px;vertical-align:middle}
+@media(max-width:860px){.layout{grid-template-columns:1fr}aside{display:none}.htabs{overflow-x:auto}}
+</style>
+</head>
+<body>
+<header>
+  <div class="hin">
+    <a class="logo" href="/">
+      <svg class="mark" viewBox="0 0 40 40" fill="none"><rect width="40" height="40" rx="12" fill="url(#g)"/><rect x="1" y="1" width="38" height="38" rx="11" stroke="#fff" stroke-opacity=".22" stroke-width="1.4"/><text x="19.5" y="27.5" font-family="Fraunces,Georgia,serif" font-size="20" font-weight="600" fill="#fff" text-anchor="middle">R</text><circle cx="28.5" cy="26.5" r="1.7" fill="#fff"/><defs><linearGradient id="g" x1="0" y1="0" x2="40" y2="40"><stop stop-color="#6E56F0"/><stop offset="1" stop-color="#9B87FC"/></linearGradient></defs></svg>
+      <span class="lname">Agent<span class="s"> OS</span></span>
+    </a>
+    <nav class="htabs">
+      <a href="/">Home</a>
+      <a href="/docs.html" class="on">Docs</a>
+      <a href="/llms.txt">llms.txt</a>
+      <a href="https://ramascan.com" target="_blank" rel="noreferrer">Explorer</a>
+      <a href="https://rns.ramestta.com" target="_blank" rel="noreferrer">Names</a>
+    </nav>
+  </div>
+</header>
+
+<div class="layout">
+<aside>
+  <h4>Start</h4>
+  <a href="#intro">Introduction</a>
+  <a href="#getting-started">Getting started</a>
+  <a href="#concepts">Core concepts</a>
+  <a href="#build">What you can build</a>
+  <h4>SDK</h4>
+  <a href="#ts">TypeScript SDK</a>
+  <a href="#py">Python SDK</a>
+  <a href="#adapters">Framework adapters</a>
+  <h4>Guides</h4>
+  <a href="#scheduling">Scheduling</a>
+  <a href="#messaging">Messaging</a>
+  <a href="#permissions">Permissions</a>
+  <h4>Reference</h4>
+  <a href="#contracts">Contracts</a>
+  <a href="#mcp">MCP server</a>
+  <a href="#relayer">Relayer API</a>
+  <a href="#machine">Machine docs</a>
+  <a href="#faq">FAQ</a>
+</aside>
+
+<main>
+  <h1>Ramestta Agent OS — Docs</h1>
+  <p class="lead">Everything you need to give an AI agent an on-chain body on Ramestta: a <code>.rama</code> identity, a smart wallet, sponsored gas, chain-native scheduling, on-chain permissions, and encrypted messaging.</p>
+
+  <h2 id="intro">Introduction</h2>
+  <p>The Agent OS is a set of audited-in-progress smart contracts on Ramestta (chain <code>1370</code> mainnet, <code>1371</code> testnet) plus TypeScript and Python SDKs. The primitives are contracts, not a hosted service — any wallet, dApp, or model can use them permissionlessly. A human controller can pause or revoke an agent at any time.</p>
+  <div class="note"><strong>Status:</strong> guarded beta on mainnet, pending an independent external audit. Do not move funds you cannot afford to lose.</div>
+
+  <h2 id="getting-started">Getting started</h2>
+  <h3>1. Add the Ramestta network</h3>
+  <table class="tbl"><tbody>
+    <tr><th>Network</th><td>Ramestta Mainnet</td></tr>
+    <tr><th>Chain ID</th><td><code>1370</code> (<code>0x55A</code>)</td></tr>
+    <tr><th>RPC URL</th><td><code>https://blockchain.ramestta.com</code></td></tr>
+    <tr><th>Currency</th><td>RAMA</td></tr>
+    <tr><th>Explorer</th><td><a href="https://ramascan.com" target="_blank" rel="noreferrer">ramascan.com</a></td></tr>
+    <tr><th>Testnet</th><td>chain <code>1371</code> · <code>https://testnet.ramestta.com</code> · faucet <a href="https://testnet-faucet.ramascan.com" target="_blank" rel="noreferrer">testnet-faucet.ramascan.com</a></td></tr>
+  </tbody></table>
+  <h3>2. Install an SDK</h3>
+  <pre><code>npm install @ramestta/agent-kit        # TypeScript
+pip install ramestta-agent-kit          # Python (add [mesh] for messaging)</code></pre>
+  <p>Packages: <a href="https://www.npmjs.com/package/@ramestta/agent-kit" target="_blank" rel="noreferrer">npm · @ramestta/agent-kit</a> · <a href="https://pypi.org/project/ramestta-agent-kit/" target="_blank" rel="noreferrer">PyPI · ramestta-agent-kit</a></p>
+  <h3>3. Boot your first agent</h3>
+  <p>Booting registers a <code>.rama</code> name, deploys the agent's smart wallet, and opens its sponsored-gas account — one transaction. You pay the name price + the Treasury minimum deposit.</p>
+  <pre><code>import { Agent } from "@ramestta/agent-kit";
+
+const agent = await Agent.boot({ name: "yieldhunter", signer, network: "mainnet" });
+console.log(agent.name, agent.wallet); // yieldhunter.rama  0x…</code></pre>
+  <div class="note">Already booted? Use <code>Agent.connect(name, signer, network)</code> to attach with the controller key.</div>
+
+  <h2 id="concepts">Core concepts</h2>
+  <table class="tbl"><thead><tr><th>Concept</th><th>What it is</th></tr></thead><tbody>
+    <tr><td>Identity</td><td>A <code>.rama</code> name (RAMANameService) resolving to the agent's wallet, forward &amp; reverse.</td></tr>
+    <tr><td>AgentWallet</td><td>An EIP-712 smart account. <code>execute</code> (controller) and <code>executeMeta</code> (session-key/relayer) move funds and call contracts.</td></tr>
+    <tr><td>AgentPermissions</td><td>Spend limits, target/token/recipient allow-lists, expiring session keys, and a human approval inbox — enforced on-chain.</td></tr>
+    <tr><td>Scheduler</td><td>A permissionless keeper market for time- and condition-triggered tasks. No cron, no server.</td></tr>
+    <tr><td>AgentTreasury</td><td>Sponsored-gas quotas (1k/10k/100k per month by tier) refunded to a relayer per meta-tx.</td></tr>
+    <tr><td>Mesh</td><td>End-to-end encrypted agent-to-agent messaging (X25519 + AES-256-GCM) over the production relay.</td></tr>
+  </tbody></table>
+
+  <h2 id="build">What can you build?</h2>
+  <p>Once your agent is booted it has a wallet, a name, gas, scheduling, permissions and messaging. Here is what those primitives let it actually <em>do</em> — and the kinds of agents people build by composing them.</p>
+
+  <h3>Your agent's capabilities</h3>
+  <table class="tbl"><thead><tr><th>Capability</th><th>What it means</th></tr></thead><tbody>
+    <tr><td>Own identity &amp; wallet</td><td>A <code>.rama</code> name plus its own smart-account address that holds and controls funds.</td></tr>
+    <tr><td>Send &amp; receive value</td><td>Send RAMA or tokens and receive payments — every transfer bounded by on-chain spend limits (per-tx, per-day, allow-lists).</td></tr>
+    <tr><td>Run itself, server-less</td><td>“Every N hours do X”, or “when condition Y is true do Z” — executed by the keeper market. No cron, no server of yours.</td></tr>
+    <tr><td>React to the chain</td><td>Trigger on prices, balances, yields or events — condition tasks are checked on-chain at execution time.</td></tr>
+    <tr><td>Talk securely</td><td>End-to-end-encrypted chat with humans (MumbleChat) and with other agents (mesh) — negotiate, coordinate, report.</td></tr>
+    <tr><td>Pay its own gas</td><td>A sponsored-gas quota via the Treasury, so users never need to hold RAMA to interact with it.</td></tr>
+    <tr><td>Be an LLM's hands</td><td>Expose read-only discovery through the public remote MCP, then give trusted local AI clients signed tools through the stdio MCP/SDK — your model can use a wallet and scheduler without a key touching a remote host.</td></tr>
+    <tr><td>Stay under human control</td><td>Pause it, revoke a session key, or require human approval above a threshold — any time, enforced on-chain.</td></tr>
+  </tbody></table>
+
+  <h3>Example agents people build</h3>
+  <table class="tbl"><thead><tr><th>Agent</th><th>What it does</th></tr></thead><tbody>
+    <tr><td>💹 Yield / trading bot</td><td>Watches APYs and rebalances a vault when they move — autonomously, on schedule. (The YieldHunter reference demo.)</td></tr>
+    <tr><td>💸 Payments / payroll agent</td><td>Sends scheduled or on-demand payouts, strictly within per-recipient and daily caps.</td></tr>
+    <tr><td>⛽ Keeper / auto-topup</td><td>Refills a pool of wallets or pokes a contract whenever a condition is met — no server holding keys.</td></tr>
+    <tr><td>💬 Concierge / support agent</td><td>Chats over MumbleChat, answers questions, and can transact small amounts within hard limits.</td></tr>
+    <tr><td>🏦 Treasury automation</td><td>Scheduled DCA, sweeps or distributions from a smart wallet with allow-listed targets.</td></tr>
+    <tr><td>🤝 Agent-to-agent commerce</td><td>Agents find each other by <code>.rama</code> name and negotiate / pay each other over encrypted mesh.</td></tr>
+    <tr><td>🔔 Monitor / alert agent</td><td>Watches on-chain events and messages you (or another agent) the moment something happens.</td></tr>
+  </tbody></table>
+  <div class="note">Every one of these is the same primitives — <a href="#scheduling">Scheduling</a>, <a href="#permissions">Permissions</a>, <a href="#messaging">Messaging</a> — composed differently. Start from a template with <code>npm create ramestta-agent</code>, then wire your own logic.</div>
+
+  <h2 id="ts">TypeScript SDK <span class="tag">@ramestta/agent-kit</span></h2>
+  <pre><code>import { Agent } from "@ramestta/agent-kit";
+
+const agent = await Agent.connect("yieldhunter", signer, "mainnet");
+
+// move funds / call a contract as the agent (controller path)
+await agent.execute(target, value, calldata);
+
+// recurring on-chain call, run by keepers — no server
+await agent.scheduleEvery(6 * 3600, VAULT, rebalanceCalldata);
+
+// encrypted message to another agent by .rama name
+const mesh = await agent.mesh();
+await mesh.send("otheragent", { offer: "swap 100 RAMA?" });
+
+// framework-ready tools
+import { ramesttaTools } from "@ramestta/agent-kit/langchain";
+const tools = await ramesttaTools(agent);</code></pre>
+  <table class="tbl"><thead><tr><th>Method</th><th>Description</th></tr></thead><tbody>
+    <tr><td><code>Agent.boot(opts)</code></td><td>Register name + deploy wallet + open gas account.</td></tr>
+    <tr><td><code>Agent.connect(name, signer, net)</code></td><td>Attach to a booted agent.</td></tr>
+    <tr><td><code>agent.execute(target, value, data)</code></td><td>Call anything as the agent (controller only).</td></tr>
+    <tr><td><code>agent.executeMeta(...)</code></td><td>Session-key/relayer path through AgentPermissions.</td></tr>
+    <tr><td><code>agent.scheduleEvery(secs, target, data)</code></td><td>Register a recurring keeper task.</td></tr>
+    <tr><td><code>agent.mesh()</code> → <code>.send(name, payload)</code></td><td>Encrypted agent messaging.</td></tr>
+  </tbody></table>
+
+  <h2 id="py">Python SDK <span class="tag">ramestta-agent-kit</span></h2>
+  <pre><code>from ramestta_agent_kit import Agent
+
+agent = Agent.connect("yieldhunter", PRIVATE_KEY, network="mainnet")
+agent.execute(target, value_wei, calldata)
+agent.schedule_every(6 * 3600, VAULT, calldata)
+
+# encrypted message (needs the [mesh] extra)
+import asyncio
+asyncio.run(agent.send_message("otheragent", "swap 100 RAMA?"))
+
+# tools for CrewAI / LangChain-py / AutoGen
+tools = agent.tools()</code></pre>
+  <div class="note">web3.py note: the SDK injects <code>ExtraDataToPOAMiddleware</code> automatically (bor is POA-style).</div>
+
+  <h2 id="adapters">Framework adapters</h2>
+  <table class="tbl"><thead><tr><th>Framework</th><th>Import</th></tr></thead><tbody>
+    <tr><td>LangChain.js</td><td><code>import { ramesttaTools } from "@ramestta/agent-kit/langchain"</code></td></tr>
+    <tr><td>elizaOS</td><td><code>import { createRamesttaPlugin } from "@ramestta/agent-kit/eliza"</code></td></tr>
+    <tr><td>CrewAI / LangChain-py</td><td><code>agent.tools()</code> → wrap each with the framework's tool decorator</td></tr>
+    <tr><td>AutoGen</td><td><code>from ramestta_agent_kit.autogen import ramestta_function_tools, register_ramestta</code></td></tr>
+    <tr><td>OpenAI Agents SDK</td><td><code>from ramestta_agent_kit.openai_agents import ramestta_agents_tools</code></td></tr>
+    <tr><td>Olas / Open Autonomy</td><td><code>from ramestta_agent_kit.olas import ramestta_ops</code></td></tr>
+    <tr><td>MCP (Claude / Cursor)</td><td>Remote MCP: 5 read-only discovery tools. Local stdio MCP: 6 signed control tools (<a href="/MCP.md">MCP.md</a>)</td></tr>
+  </tbody></table>
+
+  <h2 id="scheduling">Scheduling</h2>
+  <p>Register a task in the Scheduler; a permissionless keeper market executes it. Two trigger types:</p>
+  <ul>
+    <li><strong>Time / block</strong> — runs every <code>interval</code> once past <code>executeAt</code>.</li>
+    <li><strong>OnCondition</strong> — a view <em>probe</em> (address + calldata) decides at execution time whether the task should run.</li>
+  </ul>
+  <p>Tasks hold their own balance and pay the keeper <code>maxFee</code> per run — fund them with <code>fundTask</code> or they stop. Execution is best-effort within <strong>256 blocks</strong>; a verifiably-missed, funded task lets its creator claim capped compensation from the <code>SLAInsurancePool</code>.</p>
+  <div class="warn note"><strong>Fund your tasks.</strong> Keeper fees are real economics. An unfunded task simply won't be executed.</div>
+
+  <h2 id="messaging">Messaging</h2>
+  <p>Mesh gives agents end-to-end encrypted messages. The <strong>agent↔agent</strong> envelope uses an ephemeral X25519 key; the <strong>human-interop</strong> path uses the MumbleChat <code>mumblechat-e2ee-v1</code> codec (static-static X25519 → HKDF-SHA256 → AES-256-GCM), so agents and human MumbleChat users can message each other. The Python and TypeScript codecs are wire-identical (cross-verified).</p>
+  <pre><code>const mesh = await agent.mesh();
+mesh.onMessage((m) =&gt; console.log(m.from, m.payload));
+await mesh.send("otheragent", { text: "gm" });</code></pre>
+
+  <h2 id="permissions">Permissions &amp; safety</h2>
+  <p>Every delegated (session-key / relayer) action passes <code>AgentPermissions.checkAndConsume</code> on-chain:</p>
+  <ul>
+    <li><strong>Spend limits</strong> — per-tx, per-day, per-month.</li>
+    <li><strong>Allow-lists</strong> — targets, tokens, recipients.</li>
+    <li><strong>Session keys</strong> — expiring, spend-capped keys you can <code>revokeAll</code>.</li>
+    <li><strong>Approval inbox</strong> — spends above a threshold require a human <code>approve</code>, bound to the exact calldata.</li>
+    <li><strong>Pause</strong> — a human can pause the agent instantly.</li>
+  </ul>
+  <div class="note">The controller's direct <code>execute</code> is unrestricted by design — it's the human root authority. Permissions bound the <em>delegated</em> path an LLM or relayer uses.</div>
+
+  <h2 id="contracts">Contracts <span class="tag">mainnet 1370</span></h2>
+  <table class="tbl"><thead><tr><th>Contract</th><th>Address</th></tr></thead><tbody>
+    <tr><td>AgentBootHelper</td><td><code>0x0781EAc0486cB177864586e4DfC2077E8B88bBEa</code></td></tr>
+    <tr><td>Scheduler</td><td><code>0xb01dcA10Dff6242c46d69CBB9EfcC514a9995F23</code></td></tr>
+    <tr><td>AgentTreasury</td><td><code>0x2a5EBF934D72d3b4b65F6d4A85dCB8639C8cfD8d</code></td></tr>
+    <tr><td>AgentPermissions</td><td><code>0xA1C395a5AeF2b584982A1cEC27F10f33D29e25a0</code></td></tr>
+    <tr><td>SLAInsurancePool</td><td><code>0x24fb0B59356799bc985AC6B0476Da9e9180de3bf</code></td></tr>
+    <tr><td>AgentReputation</td><td><code>0x774a0da308cD92a09BCF08ff896733fdBDC7786a</code></td></tr>
+    <tr><td>AgentMemory</td><td><code>0x571e0C76594348038ed4B9361211Ea2A50bd24ac</code></td></tr>
+    <tr><td>KeeperRegistry</td><td><code>0xe573981627216B1353D1690D79154dE941297703</code></td></tr>
+    <tr><td>RAMANameService</td><td><code>0xde4ACb2fB2b69c96c2312887c2656Ee5Ff6290EB</code> (verified)</td></tr>
+  </tbody></table>
+
+  <h2 id="mcp">MCP server</h2>
+  <p>There are two MCP surfaces. The public remote endpoint at <code>https://agents.ramestta.com/mcp</code> is read-only and exposes five discovery tools: <code>ramestta_network_info</code>, <code>ramestta_resolve_name</code>, <code>ramestta_check_name</code>, <code>ramestta_agent_info</code>, <code>ramestta_getting_started</code>. For value-moving control, run the local stdio server <code>@ramestta/agent-mcp-server</code>; it exposes six signed tools to Claude Desktop, Cursor and other local MCP clients: <code>ramestta_agent_info</code>, <code>ramestta_remaining_quota</code>, <code>ramestta_send_payment</code>, <code>ramestta_schedule_task</code>, <code>ramestta_list_tasks</code>, <code>ramestta_send_message</code>. Add it in one step — no clone needed:</p>
+  <pre><code>{
+  "mcpServers": {
+    "ramestta": {
+      "command": "npx",
+      "args": ["-y", "@ramestta/agent-mcp-server"],
+      "env": { "AGENT_KEY": "0x…controller-key…",
+               "AGENT_NAME": "youragent",
+               "RAMESTTA_NETWORK": "mainnet" }
+    }
+  }
+}</code></pre>
+  <p>Every value-moving local tool passes the agent's on-chain spend limits. The public remote MCP never accepts private keys and never moves value. Full reference in <a href="/MCP.md">MCP.md</a>.</p>
+
+  <h2 id="relayer">Relayer API</h2>
+  <p>The sponsored relayer submits an agent's EIP-712 <code>executeMeta</code> so the agent pays no gas. See <a href="/openapi.yaml">openapi.yaml</a>.</p>
+  <table class="tbl"><thead><tr><th>Endpoint</th><th>Description</th></tr></thead><tbody>
+    <tr><td><code>GET /health</code></td><td><code>{ ok, relayer, chainId, poolBalance }</code></td></tr>
+    <tr><td><code>POST /sponsor</code></td><td><code>{ agentNameHash, walletAddress, target, value, data, deadline, signature }</code> → <code>{ ok, quotaTx, execTx }</code></td></tr>
+  </tbody></table>
+
+  <h2 id="machine">Machine-readable docs</h2>
+  <p>For AI agents and tooling that ingest specs directly:</p>
+  <ul>
+    <li><a href="/llms.txt">llms.txt</a> — concise agent-readable overview</li>
+    <li><a href="/llms-full.txt">llms-full.txt</a> — full capability &amp; contract reference</li>
+    <li><a href="/AGENTS.md">AGENTS.md</a> — rules &amp; capabilities for agents</li>
+    <li><a href="/openapi.yaml">openapi.yaml</a> — relayer API spec</li>
+  </ul>
+
+  <h2 id="faq">FAQ</h2>
+  <h3>Is gas really free?</h3>
+  <p>No — gas is <strong>near-zero</strong> (~7 gwei), and <strong>sponsored</strong> per-agent from AgentTreasury so the agent itself pays nothing on the meta-tx path. We never claim "zero gas".</p>
+  <h3>What if I lose the controller key?</h3>
+  <p>Rotate it before it's at risk with <code>transferController</code>. A lost controller key strands the agent (its wallet and name).</p>
+  <h3>Can a human stop an agent?</h3>
+  <p>Yes — pause it, revoke session keys, or reject approval requests. All enforced on-chain, independent of the agent's prompt.</p>
+  <h3>Which frameworks are supported?</h3>
+  <p>LangChain (JS + Py), CrewAI, AutoGen, elizaOS, and MCP today; any orchestrator that accepts callables via <code>agent.tools()</code>.</p>
+</main>
+</div>
+<script>
+(() => {
+  const items = Array.from(document.querySelectorAll('aside a[href^="#"]'))
+    .map((link) => ({ link, section: document.getElementById(link.getAttribute('href').slice(1)) }))
+    .filter(({ section }) => section);
+
+  if (!items.length) return;
+
+  const activate = (activeItem) => {
+    items.forEach(({ link }) => {
+      const isActive = link === activeItem.link;
+      link.classList.toggle('active', isActive);
+      if (isActive) link.setAttribute('aria-current', 'location');
+      else link.removeAttribute('aria-current');
+    });
+  };
+
+  const updateActiveSection = () => {
+    const threshold = 112;
+    let current = items[0];
+    for (const item of items) {
+      if (item.section.getBoundingClientRect().top <= threshold) current = item;
+      else break;
+    }
+    activate(current);
+  };
+
+  let scheduled = false;
+  window.addEventListener('scroll', () => {
+    if (scheduled) return;
+    scheduled = true;
+    requestAnimationFrame(() => {
+      scheduled = false;
+      updateActiveSection();
+    });
+  }, { passive: true });
+
+  window.addEventListener('hashchange', updateActiveSection);
+  items.forEach((item) => item.link.addEventListener('click', () => activate(item)));
+  updateActiveSection();
+})();
+</script>
+</body>
+</html>

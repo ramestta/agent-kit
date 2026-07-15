@@ -1,0 +1,42 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-07-09/server.schema.json",
+  "name": "io.github.ramestta/agent-mcp-server",
+  "description": "Give an AI model its own on-chain body on Ramestta: a .rama identity, a smart wallet with spend limits, sponsored gas, server-less scheduled execution, and end-to-end-encrypted agent-to-agent messaging.",
+  "repository": {
+    "url": "https://github.com/ramestta/agent-kit",
+    "source": "github",
+    "subfolder": "mcp-server"
+  },
+  "version": "0.2.3",
+  "websiteUrl": "https://agents.ramestta.com",
+  "packages": [
+    {
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "@ramestta/agent-mcp-server",
+      "version": "0.2.3",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "AGENT_KEY",
+          "description": "Controller private key (0x...) of your booted agent. Used locally to sign; never transmitted anywhere but the RPC.",
+          "isRequired": true,
+          "isSecret": true
+        },
+        {
+          "name": "AGENT_NAME",
+          "description": "Your booted agent's .rama name without the suffix (e.g. yieldhunter).",
+          "isRequired": true
+        },
+        {
+          "name": "RAMESTTA_NETWORK",
+          "description": "mainnet | testnet",
+          "isRequired": false,
+          "default": "testnet"
+        }
+      ]
+    }
+  ]
+}

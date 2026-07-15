@@ -1,0 +1,22 @@
+{
+  "network": "ramesttaMainnet",
+  "chainId": 1370,
+  "deployedAt": "2026-07-13T08:19:39.203Z",
+  "RamaAutoTopUp": "0xE0dE751252333191b5021963787B47B4A5ED0636",
+  "scheduler": "0xb01dcA10Dff6242c46d69CBB9EfcC514a9995F23",
+  "taskId": "0xc1fecba817b9ed38c91bf6c7ae6dbe5f22adeccd25f19bb45998d0dd316afe62",
+  "owner": "0xED1D757Ecc8007a2c0050DF6aA63A2a713e666fd",
+  "threshold": "0.5",
+  "fundBudget": "2.0",
+  "testWallets": [
+    {
+      "address": "0x43B9d104e4809D69fb9aD8b49330b741a31C2fA5"
+    },
+    {
+      "address": "0xeCf391aE2f0f371AE4258606da6Dc411ee9eC66B"
+    },
+    {
+      "address": "0x2def6129851be832a96d510b14F6D56E89D11f56"
+    }
+  ]
+}

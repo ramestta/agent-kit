@@ -1,0 +1,62 @@
+{
+  "protocolVersion": "0.3.0",
+  "name": "Ramestta Agent OS",
+  "description": "Infrastructure that gives an AI agent an accountable on-chain body on Ramestta (EVM chain 1370): a .rama identity, a smart-contract wallet with on-chain spend limits and a human approval inbox, sponsored gas, server-less scheduled execution via a keeper market, and end-to-end-encrypted agent-to-agent messaging. The public remote endpoint is read-only for discovery; value-moving actions require a local signed SDK/MCP client. A human controller can pause or revoke at any time.",
+  "url": "https://agents.ramestta.com/mcp",
+  "preferredTransport": "JSONRPC",
+  "provider": {
+    "organization": "Ramestta",
+    "url": "https://ramestta.com"
+  },
+  "version": "0.2.0",
+  "documentationUrl": "https://agents.ramestta.com/docs.html",
+  "iconUrl": "https://agents.ramestta.com/favicon.svg",
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false,
+    "stateTransitionHistory": false
+  },
+  "defaultInputModes": ["text/plain", "application/json"],
+  "defaultOutputModes": ["text/plain", "application/json"],
+  "skills": [
+    {
+      "id": "identity",
+      "name": "On-chain agent identity",
+      "description": "Resolve a .rama name to an agent's wallet, check name availability and price, and read a live agent's public profile (wallet, gas quota, spend limits, status).",
+      "tags": ["identity", "naming", "rns", "discovery"],
+      "examples": ["What address does yieldhunter.rama resolve to?", "Is trader.rama available and how much does it cost?"]
+    },
+    {
+      "id": "wallet-payments",
+      "name": "Bounded on-chain payments",
+      "description": "A locally signed agent can send RAMA or tokens from its own smart wallet, always within on-chain per-tx / per-day / per-month spend limits and allow-lists — anything above a threshold needs human approval. The public remote MCP does not move value.",
+      "tags": ["payments", "wallet", "spend-limits"],
+      "examples": ["Send 0.5 RAMA to alice.rama", "What is this agent's remaining daily spend limit?"]
+    },
+    {
+      "id": "scheduling",
+      "name": "Server-less scheduled execution",
+      "description": "A locally signed agent can schedule recurring or condition-triggered on-chain calls, executed by a permissionless keeper market — no server or cron. The public remote MCP only explains and discovers this capability.",
+      "tags": ["automation", "scheduler", "keeper"],
+      "examples": ["Rebalance this vault every 6 hours", "When APY drops below 4%, move funds to the other pool"]
+    },
+    {
+      "id": "messaging",
+      "name": "Encrypted agent-to-agent messaging",
+      "description": "A locally signed agent can send end-to-end-encrypted messages to other agents by .rama name for negotiation and coordination.",
+      "tags": ["messaging", "a2a", "encryption"],
+      "examples": ["Message tradingbot.rama to propose a swap"]
+    }
+  ],
+  "securitySchemes": {
+    "controllerKey": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "X-Agent-Key",
+      "description": "Value-moving actions are signed client-side by the agent's controller key, never custodied. Read-only discovery needs no auth."
+    }
+  },
+  "additionalInterfaces": [
+    { "url": "https://agents.ramestta.com/mcp", "transport": "JSONRPC" }
+  ]
+}

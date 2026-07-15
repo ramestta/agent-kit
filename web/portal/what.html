@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/favicon.svg">
+<title>What is Ramestta AI Agent OS? — Explained simply</title>
+<meta name="description" content="AI can think and talk, but it can't safely handle money or accounts on its own. Ramestta AI Agent OS gives every AI agent a safe wallet, your rules, and an off-switch — explained in plain language for everyone.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#07070c; --bg2:#0c0c14; --card:rgba(20,20,30,.55); --card2:rgba(28,28,40,.7);
+  --tx:#F5F5FA; --tx2:#a2a2b4; --tx3:#6d6d80; --bd:rgba(255,255,255,.08); --bdh:rgba(255,255,255,.18);
+  --pri:#7c6bf2; --pri2:#9b87fc; --gold:#e8b955; --green:#3fb98f; --blue:#6db6ff; --red:#f2696b;
+  --font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; --disp:'Fraunces',Georgia,serif;
+  --r:18px; --maxw:1120px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--tx);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+.amb{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.amb::before{content:'';position:absolute;top:-15%;left:50%;transform:translateX(-50%);width:1100px;height:700px;background:radial-gradient(ellipse at center,rgba(124,107,242,.18),transparent 60%);filter:blur(20px)}
+.grid-bg{position:fixed;inset:0;z-index:-1;background-image:linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse 80% 55% at 50% 0,#000,transparent 75%)}
+/* header */
+header{position:sticky;top:0;z-index:50;background:rgba(7,7,12,.72);backdrop-filter:blur(18px);border-bottom:1px solid var(--bd)}
+.hin{max-width:var(--maxw);margin:0 auto;padding:0 24px;height:64px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.logo{display:flex;align-items:center;gap:10px}
+.mark{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,var(--pri),var(--pri2));display:grid;place-items:center;font-family:var(--disp);font-weight:700;color:#fff;font-size:1.1rem}
+.lname{font-family:var(--disp);font-weight:600;font-size:1.16rem}.lname .sub{font-family:var(--font);font-weight:500;font-size:.92rem;color:var(--tx2)}
+nav.top{display:flex;gap:2px;align-items:center;overflow-x:auto;scrollbar-width:none}nav.top::-webkit-scrollbar{display:none}
+nav.top a{color:var(--tx2);font-size:.9rem;font-weight:600;padding:8px 12px;border-radius:999px;white-space:nowrap;transition:.15s}
+nav.top a:hover{color:var(--tx);background:rgba(124,107,242,.12)}
+nav.top a.active{color:var(--tx);background:rgba(124,107,242,.16)}
+.btn{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:.92rem;padding:11px 20px;border-radius:999px;cursor:pointer;border:1px solid transparent;transition:.18s;white-space:nowrap}
+.btn.pri{background:linear-gradient(135deg,var(--pri),var(--pri2));color:#fff;box-shadow:0 8px 24px rgba(124,107,242,.35)}
+.btn.pri:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(124,107,242,.5)}
+.btn.ghost{background:rgba(255,255,255,.04);border-color:var(--bd);color:var(--tx)}
+.btn.ghost:hover{border-color:var(--bdh);background:rgba(255,255,255,.07)}
+.burger{display:none;background:none;border:1px solid var(--bd);border-radius:10px;width:42px;height:38px;color:var(--tx);font-size:1.15rem;cursor:pointer}
+/* generic */
+section{padding:clamp(52px,8vw,96px) 0}
+.eyebrow{color:var(--gold);font-size:.76rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+h1{font-family:var(--disp);font-weight:600;font-size:clamp(2.4rem,5.4vw,3.7rem);line-height:1.05;letter-spacing:-.02em}
+h2{font-family:var(--disp);font-weight:600;font-size:clamp(1.8rem,3.6vw,2.5rem);letter-spacing:-.01em;line-height:1.12}
+h1 .g,h2 .g{background:linear-gradient(120deg,var(--pri2),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{font-size:1.16rem;color:var(--tx2);max-width:60ch}
+.muted{color:var(--tx2)}
+.center{text-align:center;margin-left:auto;margin-right:auto}
+/* hero */
+.hero{padding:clamp(46px,7vw,86px) 0 clamp(30px,4vw,50px);text-align:center}
+.hero .chip{display:inline-flex;align-items:center;gap:8px;font-size:.74rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--pri2);border:1px solid rgba(124,107,242,.3);background:rgba(124,107,242,.08);border-radius:999px;padding:7px 15px;margin-bottom:22px}
+.hero h1{margin:0 auto}
+.hero .lead{margin:22px auto 0}
+.cta{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:32px}
+/* problem cards */
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:44px}
+.pcard{background:var(--card);border:1px solid var(--bd);border-radius:var(--r);padding:28px;backdrop-filter:blur(10px)}
+.pcard .ic{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;font-size:1.4rem;margin-bottom:16px;background:rgba(242,105,107,.12);border:1px solid rgba(242,105,107,.25)}
+.pcard h3{font-size:1.14rem;font-weight:650;margin-bottom:8px}
+.pcard p{color:var(--tx2);font-size:.96rem}
+.sol .pcard .ic{background:rgba(63,185,143,.12);border-color:rgba(63,185,143,.28)}
+/* big statement band */
+.band{background:linear-gradient(180deg,rgba(124,107,242,.07),transparent);border-top:1px solid var(--bd);border-bottom:1px solid var(--bd)}
+/* analogy */
+.analogy{display:grid;grid-template-columns:1.05fr .95fr;gap:44px;align-items:center}
+.analogy .card{background:var(--card2);border:1px solid var(--bd);border-radius:22px;padding:34px}
+.analogy .row{display:flex;gap:14px;align-items:flex-start;padding:14px 0;border-bottom:1px dashed var(--bd)}
+.analogy .row:last-child{border-bottom:0}
+.analogy .row .k{width:34px;height:34px;flex:0 0 34px;border-radius:9px;background:rgba(124,107,242,.14);border:1px solid rgba(124,107,242,.28);display:grid;place-items:center}
+.analogy .row b{display:block;margin-bottom:2px}
+.analogy .row span{color:var(--tx2);font-size:.95rem}
+/* what you get grid */
+.g6{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:44px}
+.f{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:24px;transition:.2s}
+.f:hover{transform:translateY(-3px);border-color:var(--bdh);background:var(--card2)}
+.f .ic{font-size:1.5rem;margin-bottom:12px}
+.f b{font-size:1.05rem}
+.f p{color:var(--tx2);font-size:.92rem;margin-top:6px}
+/* control list */
+.ctrl{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:36px}
+.ctrl li{list-style:none;display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:18px 20px}
+.ctrl li .chk{color:var(--green);font-weight:800;flex:0 0 auto}
+.ctrl li b{display:block}.ctrl li span{color:var(--tx2);font-size:.93rem}
+/* diagram */
+.fig{margin-top:40px;background:var(--card);border:1px solid var(--bd);border-radius:22px;padding:8px}
+.fig svg{width:100%;height:auto;display:block}
+.figcap{color:var(--tx3);font-size:.85rem;text-align:center;margin-top:12px}
+.flowline{fill:none;stroke-width:2;stroke-dasharray:6 7;animation:march 1.1s linear infinite}@keyframes march{to{stroke-dashoffset:-13}}
+.dnode text{fill:var(--tx)}
+/* cta band */
+.ctaband{text-align:center}
+.ctaband h2{margin-bottom:14px}
+/* footer */
+footer{border-top:1px solid var(--bd);padding:40px 0;color:var(--tx3);font-size:.9rem}
+.fnav{display:flex;gap:20px;flex-wrap:wrap;margin-top:14px}
+.fnav a{color:var(--tx2)}.fnav a:hover{color:var(--tx)}
+@media(max-width:860px){
+  nav.top{display:none}.burger{display:grid;place-items:center}
+  .grid3,.g6{grid-template-columns:1fr}.ctrl,.analogy{grid-template-columns:1fr}
+}
+</style>
+<style id="mnav">@media(max-width:860px){
+  header .hin{position:relative}
+  header nav.top{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;gap:4px;background:rgba(7,7,12,.98);backdrop-filter:blur(18px);border-bottom:1px solid var(--bd);padding:12px 16px;max-height:78vh;overflow-y:auto;box-shadow:0 20px 40px rgba(0,0,0,.5)}
+  header nav.top.open{display:flex}
+  header nav.top a{padding:13px 14px;font-size:1rem;border-radius:12px;white-space:normal}
+  .burger{display:grid;place-items:center}
+  .hin{padding-left:18px;padding-right:18px}
+}
+@media(max-width:520px){
+  header .btn.pri{padding:9px 14px;font-size:.85rem}
+  .lname .sub{display:none}
+  h1{font-size:2.2rem!important}
+}</style>
+</head>
+<body>
+<div class="amb"></div><div class="grid-bg"></div>
+
+<header>
+  <div class="hin">
+    <a class="logo" href="/"><span class="mark">R</span><span class="lname">Agent <span class="sub">OS</span></span></a>
+    <nav class="top">
+      <a href="/what.html" class="active">What it is</a><a href="/how.html">How it works</a><a href="/use-cases.html">Use cases</a><a href="/capabilities.html">Capabilities</a><a href="/contracts.html">Contracts</a><a href="/docs.html">Docs</a><a href="/console/">Console</a><a href="/safety.html">Safety</a>
+    </nav>
+    <a class="btn pri" href="/console/">Open Console →</a>
+    <button class="burger" onclick="document.querySelector('nav.top').classList.toggle('open')">☰</button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero wrap">
+  <div class="chip">● For everyone — no tech knowledge needed</div>
+  <h1>What is <span class="g">Ramestta AI Agent OS?</span></h1>
+  <p class="lead">In one line: it lets an AI assistant <b>safely handle money and online tasks for you</b> —
+  with your rules, your limits, and an off-switch you control. Here's the whole idea, in plain language.</p>
+  <div class="cta">
+    <a class="btn pri" href="#solution">Show me the idea ↓</a>
+    <a class="btn ghost" href="/use-cases.html">See real examples</a>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="wrap">
+  <div class="center" style="max-width:720px">
+    <p class="eyebrow">The problem</p>
+    <h2 style="margin-top:10px">AI can <span class="g">think and talk</span>. It can't safely <span class="g">act</span>.</h2>
+    <p class="lead center" style="margin-top:16px">Today's AI can write your emails and plan your day. But the moment you want it to
+    actually <i>do</i> something — pay a bill, move savings, run a task every morning — you hit a wall.</p>
+  </div>
+  <div class="grid3">
+    <div class="pcard">
+      <div class="ic">🔑</div>
+      <h3>You'd have to hand over your keys</h3>
+      <p>To let an AI spend money, you'd give it your card number or wallet password. Now it can spend <i>anything</i> — that's terrifying.</p>
+    </div>
+    <div class="pcard">
+      <div class="ic">🛑</div>
+      <h3>No real off-switch</h3>
+      <p>If the AI makes a mistake or gets hacked, there's no clean way to instantly stop it or take back control.</p>
+    </div>
+    <div class="pcard">
+      <div class="ic">🕵️</div>
+      <h3>You can't see what it did</h3>
+      <p>Actions happen on some company's private server. You just have to trust it. No clear, tamper-proof record.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUTION -->
+<section class="band" id="solution">
+  <div class="wrap">
+    <div class="center" style="max-width:760px">
+      <p class="eyebrow">The solution</p>
+      <h2 style="margin-top:10px">Give the AI its own <span class="g">safe wallet</span>, your <span class="g">rulebook</span>, and a <span class="g">pause button</span>.</h2>
+      <p class="lead center" style="margin-top:16px">Ramestta AI Agent OS is a system on the blockchain that hands every AI agent
+      a dedicated account — locked inside <b>your</b> rules. You decide how much it can spend, who it can pay, and what it may do.
+      You keep the master key. It can never go beyond your limits, and you can freeze it in one click.</p>
+    </div>
+    <div class="sol grid3">
+      <div class="pcard">
+        <div class="ic">💳</div>
+        <h3>Its own limited wallet</h3>
+        <p>The agent gets a fresh wallet with a spending limit you set — like a prepaid card. It never touches your main money.</p>
+      </div>
+      <div class="pcard">
+        <div class="ic">📜</div>
+        <h3>Your rules are built-in</h3>
+        <p>"Max ₹500/day, only pay these people, never do that." The rules live on the blockchain — the AI physically cannot break them.</p>
+      </div>
+      <div class="pcard">
+        <div class="ic">⏸️</div>
+        <h3>You're always in control</h3>
+        <p>Watch every action on a public ledger. Pause, change limits, or shut it down instantly — anytime, from anywhere.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ANALOGY + DIAGRAM -->
+<section class="wrap">
+  <div class="analogy">
+    <div>
+      <p class="eyebrow">The simplest way to picture it</p>
+      <h2 style="margin-top:10px">It's a <span class="g">debit card for your AI</span> — with your rules and a supervisor.</h2>
+      <p class="lead" style="margin-top:16px">You wouldn't give a new assistant your entire bank account. You'd give them a card
+      with a limit, a list of what's allowed, and the power to freeze it. That's exactly what this does — for AI.</p>
+    </div>
+    <div class="card">
+      <div class="row"><span class="k">👤</span><div><b>You</b><span>Set the limits and hold the master key. Nothing happens outside your rules.</span></div></div>
+      <div class="row"><span class="k">🤖</span><div><b>Your AI agent</b><span>Does the work using a temporary "session key" — never your master key.</span></div></div>
+      <div class="row"><span class="k">⛓️</span><div><b>The blockchain</b><span>Enforces the rules and records every action, publicly and permanently.</span></div></div>
+      <div class="row"><span class="k">⏸️</span><div><b>The off-switch</b><span>One click pauses or revokes the agent. Instantly. Always yours.</span></div></div>
+    </div>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 900 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="How value flows safely: you set rules, the agent acts within them, the blockchain enforces and records, and you can pause anytime.">
+      <defs>
+        <linearGradient id="gp" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7c6bf2"/><stop offset="1" stop-color="#9b87fc"/></linearGradient>
+      </defs>
+      <!-- boxes -->
+      <g class="dnode" font-family="Inter,sans-serif" font-size="14" text-anchor="middle">
+        <rect x="30" y="86" width="150" height="68" rx="14" fill="rgba(124,107,242,.12)" stroke="#7c6bf2"/>
+        <text x="105" y="116" font-weight="700">👤 You</text><text x="105" y="136" fill="#a2a2b4" font-size="12">set rules + limits</text>
+
+        <rect x="250" y="86" width="160" height="68" rx="14" fill="rgba(232,185,85,.10)" stroke="#e8b955"/>
+        <text x="330" y="116" font-weight="700">📜 Rulebook</text><text x="330" y="136" fill="#a2a2b4" font-size="12">on the blockchain</text>
+
+        <rect x="480" y="86" width="160" height="68" rx="14" fill="rgba(109,182,255,.10)" stroke="#6db6ff"/>
+        <text x="560" y="116" font-weight="700">🤖 AI agent</text><text x="560" y="136" fill="#a2a2b4" font-size="12">acts within limits</text>
+
+        <rect x="710" y="86" width="160" height="68" rx="14" fill="rgba(63,185,143,.10)" stroke="#3fb98f"/>
+        <text x="790" y="112" font-weight="700">✅ Done + logged</text><text x="790" y="132" fill="#a2a2b4" font-size="12">public, permanent</text>
+      </g>
+      <!-- arrows -->
+      <path class="flowline" stroke="#7c6bf2" d="M180 120 H250"/>
+      <path class="flowline" stroke="#e8b955" d="M410 120 H480"/>
+      <path class="flowline" stroke="#6db6ff" d="M640 120 H710"/>
+      <!-- pause loop -->
+      <path class="flowline" stroke="#f2696b" d="M560 86 C560 40 105 40 105 86"/>
+      <text x="330" y="34" text-anchor="middle" fill="#f2696b" font-size="12" font-family="Inter,sans-serif" font-weight="600">⏸️ pause / revoke anytime</text>
+    </svg>
+    <p class="figcap">Every action must pass your rulebook before it happens — and you can stop the agent at any point.</p>
+  </div>
+</section>
+
+<!-- WHAT EVERY AGENT GETS -->
+<section class="band">
+  <div class="wrap">
+    <div class="center" style="max-width:700px">
+      <p class="eyebrow">In one click</p>
+      <h2 style="margin-top:10px">Everything an AI agent needs to act — <span class="g">safely</span></h2>
+      <p class="lead center" style="margin-top:14px">Booting an agent gives it six things at once. Here's what each one means, in plain words.</p>
+    </div>
+    <div class="g6">
+      <div class="f"><div class="ic">🏷️</div><b>A name</b><p>A readable identity like <code>mybot.rama</code> instead of a long random address — easy to recognise and trust.</p></div>
+      <div class="f"><div class="ic">👛</div><b>A wallet</b><p>Its own on-chain account to hold and move a limited amount of money — separate from yours.</p></div>
+      <div class="f"><div class="ic">⛽</div><b>Free-to-run gas</b><p>Blockchain actions normally cost a tiny fee; the system can sponsor these so the agent just works.</p></div>
+      <div class="f"><div class="ic">🛡️</div><b>Permissions</b><p>The rulebook: spend caps, allowed contacts, and actions that need your approval first.</p></div>
+      <div class="f"><div class="ic">⏰</div><b>A scheduler</b><p>Run tasks on time — every day, every hour — with no server and no cron job to babysit.</p></div>
+      <div class="f"><div class="ic">🔐</div><b>Private messaging</b><p>Agents can talk to each other (and to you) with end-to-end encryption.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTROL -->
+<section class="wrap">
+  <div class="center" style="max-width:700px">
+    <p class="eyebrow">Why it's safe</p>
+    <h2 style="margin-top:10px">You never lose control</h2>
+  </div>
+  <ul class="ctrl">
+    <li><span class="chk">✓</span><div><b>The master key stays with you</b><span>The agent only ever uses a temporary, limited session key — never the key that owns everything.</span></div></li>
+    <li><span class="chk">✓</span><div><b>Hard spending limits</b><span>Per-transaction, per-day and per-month caps are enforced by code. The agent literally cannot exceed them.</span></div></li>
+    <li><span class="chk">✓</span><div><b>Big actions need your approval</b><span>Anything above a limit you set waits for a human "yes" before it can go through.</span></div></li>
+    <li><span class="chk">✓</span><div><b>Instant pause &amp; revoke</b><span>Freeze the agent or cancel its access in one click, from anywhere — no waiting.</span></div></li>
+    <li><span class="chk">✓</span><div><b>Everything is on the record</b><span>Every action is written to a public blockchain you can inspect. No hidden moves.</span></div></li>
+    <li><span class="chk">✓</span><div><b>Upgrades have a safety delay</b><span>The system's own code can only change after a public 24-hour timelock — no surprise changes.</span></div></li>
+  </ul>
+</section>
+
+<!-- CTA -->
+<section class="band">
+  <div class="wrap ctaband">
+    <p class="eyebrow">Now the fun part</p>
+    <h2>See it work — or try what it can do</h2>
+    <p class="lead center" style="margin-top:12px">Follow the agent step-by-step, or jump to real everyday examples.</p>
+    <div class="cta">
+      <a class="btn pri" href="/how.html">How it works, step by step →</a>
+      <a class="btn ghost" href="/use-cases.html">What you can build</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="logo"><span class="mark">R</span><span class="lname">Agent <span class="sub">OS</span></span></div>
+    <p style="margin-top:12px;max-width:60ch">Ramestta AI Agent OS — a safe home for autonomous AI agents on the Ramestta blockchain (chain 1370). A human is always in control.</p>
+    <div class="fnav">
+      <a href="/what.html">What it is</a><a href="/how.html">How it works</a><a href="/use-cases.html">Use cases</a>
+      <a href="/docs.html">Developer docs</a><a href="/console/">Console</a><a href="https://ramestta.com">Ramestta.com</a>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,42 @@
+{
+  "name": "@ramestta/agent-mcp-server",
+  "version": "0.2.3",
+  "description": "MCP server exposing a Ramestta AI agent's on-chain capabilities as tools",
+  "mcpName": "io.github.ramestta/agent-mcp-server",
+  "license": "MIT",
+  "bin": {
+    "ramestta-agent-mcp": "server.js"
+  },
+  "files": [
+    "server.js",
+    "README.md",
+    "server.json",
+    "smithery.yaml"
+  ],
+  "dependencies": {
+    "@ramestta/agent-kit": "^0.2.1",
+    "ethers": "^6.13.0"
+  },
+  "keywords": [
+    "ramestta",
+    "ai-agents",
+    "mcp",
+    "model-context-protocol",
+    "claude",
+    "evm",
+    "web3",
+    "blockchain",
+    "agent",
+    "wallet"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ramestta/agent-kit.git",
+    "directory": "mcp-server"
+  },
+  "homepage": "https://agents.ramestta.com",
+  "author": "Ramestta",
+  "publishConfig": {
+    "access": "public"
+  }
+}

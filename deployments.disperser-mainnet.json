@@ -1,0 +1,26 @@
+{
+  "network": "ramesttaMainnet",
+  "chainId": 1370,
+  "deployedAt": "2026-07-13T08:41:15.549Z",
+  "RamaDisperser": "0xdC0fD517eB223e962802eD70CFC3dBEd92a8cCB8",
+  "scheduler": "0xb01dcA10Dff6242c46d69CBB9EfcC514a9995F23",
+  "taskId": "0xdd5a6062137614550ab306c27e6636e3712c9c33e450b73dd8f959c31fdff094",
+  "owner": "0xED1D757Ecc8007a2c0050DF6aA63A2a713e666fd",
+  "amountPerTx": "0.0001",
+  "batchSize": 3,
+  "fundBudget": "0.5",
+  "recipients": [
+    {
+      "address": "0x03B0D7599dE6FDD20d6B5b2462FC1d28Af8C6Eb8"
+    },
+    {
+      "address": "0x0129370c232Ec30e692F295aA8adb7ed23e5020e"
+    },
+    {
+      "address": "0x8D93eF841F07de67AC66ED63617126A6abE2d247"
+    }
+  ],
+  "continuousTaskId": "0x69780614f24572341b46d359ccc94595e8d8974e86c854a9e95f2cdbe9ebb292",
+  "mode": "continuous",
+  "interval": 5
+}

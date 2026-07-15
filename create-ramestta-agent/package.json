@@ -1,0 +1,31 @@
+{
+  "name": "create-ramestta-agent",
+  "version": "0.1.0",
+  "description": "Scaffold a working Ramestta AI agent in seconds",
+  "license": "MIT",
+  "bin": {
+    "create-ramestta-agent": "index.js"
+  },
+  "files": [
+    "index.js"
+  ],
+  "keywords": [
+    "ramestta",
+    "ai-agents",
+    "agent",
+    "create",
+    "scaffold",
+    "cli",
+    "evm",
+    "web3",
+    "mcp",
+    "langchain"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ramestta/agent-kit.git",
+    "directory": "create-ramestta-agent"
+  },
+  "homepage": "https://agents.ramestta.com",
+  "author": "Ramestta"
+}

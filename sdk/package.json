@@ -1,0 +1,81 @@
+{
+  "name": "@ramestta/agent-kit",
+  "version": "0.2.1",
+  "description": "Deploy your AI agent to Ramestta in one line — .rama identity, smart wallet, sponsored gas, chain-native scheduling, on-chain permissions, and encrypted agent-to-agent messaging.",
+  "license": "MIT",
+  "author": "Ramestta",
+  "homepage": "https://agents.ramestta.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ramestta/agent-kit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ramestta/agent-kit/issues"
+  },
+  "keywords": [
+    "ramestta",
+    "ai-agents",
+    "agent",
+    "evm",
+    "web3",
+    "blockchain",
+    "account-abstraction",
+    "langchain",
+    "eliza",
+    "mcp",
+    "sponsored-gas",
+    "scheduler"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./langchain": {
+      "types": "./dist/langchain.d.ts",
+      "default": "./dist/langchain.js"
+    },
+    "./eliza": {
+      "types": "./dist/eliza.d.ts",
+      "default": "./dist/eliza.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build",
+    "smoke": "npm run build && node dist/smoke.js"
+  },
+  "dependencies": {
+    "ethers": "^6.13.0",
+    "ws": "^8.21.0"
+  },
+  "peerDependencies": {
+    "@langchain/core": "^1.2.2",
+    "zod": "^4.4.3"
+  },
+  "peerDependenciesMeta": {
+    "@langchain/core": {
+      "optional": true
+    },
+    "zod": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@langchain/core": "^1.2.2",
+    "@types/node": "^26.1.1",
+    "@types/ws": "^8.18.1",
+    "typescript": "^5.5.0",
+    "zod": "^4.4.3"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

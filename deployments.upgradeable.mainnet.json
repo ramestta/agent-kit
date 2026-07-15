@@ -1,0 +1,29 @@
+{
+  "network": "ramesttaMainnet",
+  "chainId": 1370,
+  "upgradeable": true,
+  "deployedAt": "2026-07-12T07:43:27.440Z",
+  "owner": "0x23037e4F51eB85E0246a8e8c9C2410144172CaEa",
+  "governance": {
+    "timelock": "0x23037e4F51eB85E0246a8e8c9C2410144172CaEa",
+    "minDelaySeconds": 86400,
+    "multisig": "0x4194c014BBd3513558E94Aac01d5bB4144Bc360C",
+    "fixedMultisig": "0x679118a0044deb2F1808eDD0c604E980e44d8bC3",
+    "fixedMultisigStatus": "DEPLOYED (same 3 signers, 2-of-3, H-02 fixed). Grant of PROPOSER+EXECUTOR to it SCHEDULED on timelock (opId 0xaf3cbb61…). After 24h: executeBatch grant, verify, then schedule revoke(old)+RNS transfer to finalize.",
+    "note": "H-03: all 8 contracts owned by AgentTimelock (24h). Multisig is the timelock PROPOSER+EXECUTOR. Upgrades: multisig schedule() -> wait 24h -> multisig execute()."
+  },
+  "deps": {
+    "rns": "0xde4ACb2fB2b69c96c2312887c2656Ee5Ff6290EB",
+    "registry": "0xabd36A48abbEb5EF692A4841FF2896cf6eC9420F"
+  },
+  "contracts": {
+    "AgentTreasury": "0x2a5EBF934D72d3b4b65F6d4A85dCB8639C8cfD8d",
+    "AgentPermissions": "0xA1C395a5AeF2b584982A1cEC27F10f33D29e25a0",
+    "Scheduler": "0xb01dcA10Dff6242c46d69CBB9EfcC514a9995F23",
+    "SLAInsurancePool": "0x24fb0B59356799bc985AC6B0476Da9e9180de3bf",
+    "AgentWalletBeacon": "0x54ac9E097D709482101326AaFB59E990096ebcc3",
+    "AgentBootHelper": "0x0781EAc0486cB177864586e4DfC2077E8B88bBEa",
+    "AgentReputation": "0x774a0da308cD92a09BCF08ff896733fdBDC7786a",
+    "AgentMemory": "0x571e0C76594348038ed4B9361211Ea2A50bd24ac"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "@ramestta/agent-remote-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Public, read-only remote MCP server for Ramestta Agent OS (served at agents.ramestta.com/mcp).",
+  "main": "server.js",
+  "scripts": { "start": "node server.js" },
+  "dependencies": { "ethers": "^6.13.0" },
+  "license": "MIT"
+}

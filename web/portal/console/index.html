@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent Control Center — Ramestta AI Agent OS</title>
+<meta name="description" content="Manage Ramestta AI agents: permissions, spend limits, session keys, approval inbox, scheduled tasks, boot wizard and the ops multisig — all on-chain.">
+<link rel="icon" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#07070c; --panel:rgba(20,20,30,.55); --panel2:rgba(28,28,40,.72);
+  --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.16);
+  --text:#F5F5FA; --dim:#a2a2b4; --dim2:#6d6d80;
+  --acc:#7c6bf2; --acc2:#9b87fc; --gold:#e8b955; --ok:#3fb98f; --warn:#e8b955; --bad:#f2696b;
+  --mono:ui-monospace,'SF Mono',Menlo,monospace; --disp:'Fraunces',Georgia,serif; --font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:15px;line-height:1.6;min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--acc2);text-decoration:none}a:hover{text-decoration:underline}
+.amb{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.amb::before{content:'';position:absolute;top:-20%;left:50%;transform:translateX(-50%);width:1100px;height:720px;background:radial-gradient(ellipse at center,rgba(124,107,242,.16),transparent 60%);filter:blur(22px)}
+.amb::after{content:'';position:absolute;top:24%;right:-8%;width:620px;height:620px;background:radial-gradient(circle,rgba(232,185,85,.08),transparent 60%);filter:blur(30px)}
+.grid-bg{position:fixed;inset:0;z-index:-1;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse 80% 55% at 50% 0,#000,transparent 75%)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 22px}
+header{position:sticky;top:0;z-index:50;background:rgba(7,7,12,.72);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+.hbar{display:flex;align-items:center;gap:14px;height:64px}
+.logo{display:flex;align-items:center;gap:11px;font-family:var(--disp);font-weight:600;font-size:1.14rem}
+.logo .dot{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--acc),var(--acc2));box-shadow:0 4px 14px rgba(124,107,242,.4);display:grid;place-items:center}
+.logo .dot::after{content:'R';font-family:var(--disp);font-weight:700;color:#fff;font-size:1rem}
+.logo small{color:var(--dim);font-weight:500;font-family:var(--font);font-size:.9rem}
+.spacer{flex:1}
+.chainpill{font:600 12px var(--font);color:var(--dim);border:1px solid var(--line);border-radius:99px;padding:6px 13px;display:inline-flex;align-items:center;gap:7px}
+.chainpill::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px var(--ok)}
+.btn{cursor:pointer;border:1px solid var(--line2);background:rgba(255,255,255,.04);color:var(--text);border-radius:999px;padding:10px 18px;font-size:14px;font-weight:600;transition:.18s;font-family:var(--font);white-space:nowrap}
+.btn:hover{background:rgba(255,255,255,.08);transform:translateY(-1px)}
+.btn.primary{background:linear-gradient(135deg,var(--acc),var(--acc2));border:none;box-shadow:0 8px 24px rgba(124,107,242,.35)}
+.btn.primary:hover{box-shadow:0 12px 30px rgba(124,107,242,.5)}
+.btn.small{padding:7px 14px;font-size:12.5px}
+.btn.ok{border-color:rgba(63,185,143,.5);color:var(--ok)}
+.btn.bad{border-color:rgba(242,105,107,.5);color:var(--bad)}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+nav.tabs{display:flex;gap:4px;overflow-x:auto;padding:10px 0 0;scrollbar-width:none}nav.tabs::-webkit-scrollbar{display:none}
+nav.tabs button{background:none;border:none;color:var(--dim);font-size:14px;font-weight:600;padding:10px 16px;cursor:pointer;border-radius:999px;white-space:nowrap;font-family:var(--font);transition:.15s}
+nav.tabs button:hover{color:var(--text);background:rgba(124,107,242,.1)}
+nav.tabs button.on{color:var(--text);background:rgba(124,107,242,.16)}
+main{padding:28px 0 90px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:24px;margin-bottom:18px;backdrop-filter:blur(10px)}
+.card h2{font-family:var(--disp);font-weight:600;font-size:1.32rem;margin-bottom:4px;letter-spacing:-.01em}
+.card h2 + p{color:var(--dim);font-size:.95rem;margin-bottom:16px}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+.stat{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:16px 18px;position:relative;overflow:hidden}
+.stat::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--acc),transparent);opacity:.5}
+.stat .k{color:var(--dim);font-size:11px;text-transform:uppercase;letter-spacing:.8px;font-weight:600}
+.stat .v{font-family:var(--disp);font-weight:600;font-size:1.4rem;margin-top:6px;line-height:1.15}
+.stat .v small{font-size:12px;color:var(--dim);font-family:var(--font)}
+label{display:block;font-size:12.5px;color:var(--dim);margin:12px 0 6px;font-weight:600}
+input[type=text],input[type=number],textarea,select{width:100%;background:rgba(0,0,0,.32);border:1px solid var(--line2);color:var(--text);border-radius:12px;padding:11px 14px;font:14px var(--font);outline:none;transition:.15s}
+input::placeholder,textarea::placeholder{color:var(--dim2)}
+input:focus,textarea:focus,select:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(124,107,242,.15)}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end}
+.row > div{flex:1;min-width:160px}
+.mono{font-family:var(--mono);font-size:13px}
+.addr{font:12.5px var(--mono);color:var(--dim);word-break:break-all}
+.tag{display:inline-block;font:600 11px var(--font);padding:4px 10px;border-radius:99px;border:1px solid var(--line2);color:var(--dim)}
+.tag.ok{color:var(--ok);border-color:rgba(63,185,143,.4);background:rgba(63,185,143,.08)}
+.tag.warn{color:var(--warn);border-color:rgba(232,185,85,.4);background:rgba(232,185,85,.08)}
+.tag.bad{color:var(--bad);border-color:rgba(242,105,107,.4);background:rgba(242,105,107,.08)}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th{color:var(--dim2);text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.7px;padding:10px 12px;border-bottom:1px solid var(--line)}
+td{padding:12px;border-bottom:1px solid var(--line);vertical-align:middle}
+.toast{position:fixed;bottom:22px;right:22px;z-index:99;display:flex;flex-direction:column;gap:8px;max-width:420px}
+.toast div{background:var(--panel2);border:1px solid var(--line2);border-left:3px solid var(--acc);border-radius:12px;padding:12px 16px;font-size:13.5px;box-shadow:0 8px 30px rgba(0,0,0,.5);word-break:break-word;backdrop-filter:blur(10px)}
+.toast div.ok{border-left-color:var(--ok)}.toast div.bad{border-left-color:var(--bad)}
+.hint{font-size:12.5px;color:var(--dim2);margin-top:8px}
+.switch{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--dim);margin-top:10px}
+.beta{background:linear-gradient(180deg,rgba(232,185,85,.08),transparent);border:1px solid rgba(232,185,85,.28);border-radius:14px;padding:14px 18px;font-size:13.5px;color:var(--dim);margin-bottom:22px}
+.beta b{color:var(--gold)}
+.empty{color:var(--dim2);font-size:13.5px;padding:14px 4px}
+.section-cols{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:860px){.section-cols{grid-template-columns:1fr}}
+#taskList,#msList,#inboxList{overflow-x:auto}
+@media(max-width:640px){.logo small{display:none}.logo{font-size:1rem;white-space:nowrap}.spacer{display:none}.chainpill{display:none}.hbar{height:auto;min-height:56px;flex-wrap:wrap;gap:8px;padding:8px 0}.btn{padding:8px 13px;font-size:12.5px}nav.tabs{padding-top:6px}}
+h3.sub{font-family:var(--disp);font-weight:600;font-size:1.06rem;margin:18px 0 6px;color:var(--text)}
+.pillrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+</style>
+</head>
+<body>
+<div class="amb"></div><div class="grid-bg"></div>
+<header><div class="wrap">
+  <div class="hbar">
+    <div class="logo"><span class="dot"></span> Agent Control Center <small>· Ramestta AI Agent OS</small></div>
+    <div class="spacer"></div>
+    <a class="btn small" href="https://ramestta.com" title="Back to the main Ramestta website">← Home</a>
+    <a class="btn small" href="/" title="Agent OS portal">Portal</a>
+    <span class="chainpill" id="netpill">Ramestta 1370</span>
+    <button class="btn primary" id="connectBtn">Connect wallet</button>
+  </div>
+  <nav class="tabs" id="tabs">
+    <button data-tab="agent" class="on">My Agent</button>
+    <button data-tab="inbox">Approval Inbox</button>
+    <button data-tab="boot">Boot an Agent</button>
+    <button data-tab="tasks">Scheduled Tasks</button>
+    <button data-tab="network">Network</button>
+  </nav>
+</div></header>
+
+<main class="wrap">
+<div class="beta">⚠️ <b>Guarded mainnet beta — unaudited.</b> Use small test allocations. Every action here is a real on-chain transaction signed by YOUR connected wallet; nothing is custodial. Docs: <a href="https://agents.ramestta.com/docs.html" target="_blank" rel="noreferrer">agents.ramestta.com/docs</a></div>
+
+<!-- ══ MY AGENT ══ -->
+<section id="tab-agent">
+  <div class="card">
+    <h2>Look up an agent</h2>
+    <p>Enter a <b>.rama</b> name to load its wallet, quota, limits and controls. Management actions unlock when your connected wallet is the agent's controller.</p>
+    <div class="row">
+      <div style="flex:2"><label>.rama name</label><input type="text" id="agentName" placeholder="genesis" spellcheck="false"></div>
+      <div style="flex:0"><button class="btn primary" id="loadAgentBtn">Load agent</button></div>
+    </div>
+    <div id="agentSummary" style="display:none;margin-top:18px">
+      <div class="grid g4">
+        <div class="stat"><div class="k">Agent wallet</div><div class="v" style="font-size:13px" id="agWallet">—</div></div>
+        <div class="stat"><div class="k">Controller</div><div class="v" style="font-size:13px" id="agController">—</div></div>
+        <div class="stat"><div class="k">Wallet balance</div><div class="v" id="agBalance">—</div></div>
+        <div class="stat"><div class="k">Status</div><div class="v" id="agStatus">—</div></div>
+      </div>
+      <div class="grid g4" style="margin-top:14px">
+        <div class="stat"><div class="k">Gas tier</div><div class="v" id="agTier">—</div></div>
+        <div class="stat"><div class="k">Sponsored quota left</div><div class="v" id="agQuota">—</div></div>
+        <div class="stat"><div class="k">Boot deposit</div><div class="v" id="agDeposit">—</div></div>
+        <div class="stat"><div class="k">Booted</div><div class="v" style="font-size:14px" id="agBooted">—</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="manageWrap" style="display:none">
+  <div class="section-cols">
+    <div class="card">
+      <h2>Emergency &amp; limits</h2>
+      <p>Controller-only. Limits are enforced on-chain on every relayed (meta) execution.</p>
+      <div class="pillrow">
+        <button class="btn bad" id="pauseBtn">⏸ Pause agent</button>
+        <button class="btn ok" id="unpauseBtn">▶ Unpause</button>
+        <button class="btn bad" id="revokeAllBtn">Revoke ALL session keys</button>
+      </div>
+      <h3 class="sub">Spend limits (RAMA)</h3>
+      <div class="row">
+        <div><label>Max / tx</label><input type="text" id="limMaxTx" placeholder="0.5"></div>
+        <div><label>Max / day</label><input type="text" id="limMaxDay" placeholder="2"></div>
+        <div><label>Max / month</label><input type="text" id="limMaxMonth" placeholder="20"></div>
+        <div><label>Approval above</label><input type="text" id="limApprove" placeholder="0.1"></div>
+      </div>
+      <div class="switch"><input type="checkbox" id="limReadOnly"> <span>Read-only (agent cannot move value at all)</span></div>
+      <div class="pillrow" style="margin-top:12px"><button class="btn primary" id="setLimitsBtn">Save limits</button></div>
+      <div class="hint" id="curLimits">—</div>
+    </div>
+
+    <div class="card">
+      <h2>Allow-lists</h2>
+      <p>Meta executions may only touch allowed targets/recipients/tokens (when lists are in use).</p>
+      <div class="row">
+        <div style="flex:2"><label>Address</label><input type="text" id="alAddr" placeholder="0x…" spellcheck="false"></div>
+        <div><label>Type</label><select id="alType"><option value="target">Contract target</option><option value="recipient">Recipient</option><option value="token">Token</option></select></div>
+      </div>
+      <div class="pillrow" style="margin-top:12px">
+        <button class="btn ok" id="allowBtn">Allow</button>
+        <button class="btn bad" id="denyBtn">Deny</button>
+        <button class="btn small" id="checkAllowBtn">Check target status</button>
+      </div>
+      <h3 class="sub">Session keys</h3>
+      <div class="row">
+        <div style="flex:2"><label>Key address</label><input type="text" id="skAddr" placeholder="0x…" spellcheck="false"></div>
+        <div><label>Expires (days)</label><input type="number" id="skDays" value="7"></div>
+        <div><label>Spend cap (RAMA)</label><input type="text" id="skCap" placeholder="1"></div>
+      </div>
+      <div class="pillrow" style="margin-top:12px">
+        <button class="btn primary" id="issueSkBtn">Issue session key</button>
+        <button class="btn bad" id="revokeSkBtn">Revoke this key</button>
+        <button class="btn small" id="checkSkBtn">Check key</button>
+      </div>
+      <div class="hint" id="skInfo">—</div>
+    </div>
+  </div>
+  </div>
+</section>
+
+<!-- ══ INBOX ══ -->
+<section id="tab-inbox" style="display:none">
+  <div class="card">
+    <h2>Human approval inbox</h2>
+    <p>Actions above the agent's <b>approval-above</b> limit wait here until the controller approves or rejects. Load an agent on the "My Agent" tab first (or type a name below).</p>
+    <div class="row">
+      <div style="flex:2"><label>.rama name</label><input type="text" id="inboxName" placeholder="genesis" spellcheck="false"></div>
+      <div style="flex:0"><button class="btn primary" id="loadInboxBtn">Load inbox</button></div>
+    </div>
+    <div id="inboxList" style="margin-top:16px"><div class="empty">No agent loaded.</div></div>
+  </div>
+</section>
+
+<!-- ══ BOOT ══ -->
+<section id="tab-boot" style="display:none">
+  <div class="card">
+    <h2>Boot a new agent</h2>
+    <p>One transaction registers the <b>.rama</b> name, deploys the agent's smart wallet, registers its messaging key and opens its sponsored-gas account. Price is read live from RNS — it follows any future price change automatically.</p>
+    <div class="row">
+      <div style="flex:2"><label>.rama name (3–63 chars)</label><input type="text" id="bootName" placeholder="myagent" spellcheck="false"></div>
+      <div style="flex:0"><button class="btn" id="quoteBtn">Check price</button></div>
+    </div>
+    <div class="grid g4" style="margin-top:14px">
+      <div class="stat"><div class="k">Name price / yr</div><div class="v" id="qPrice">—</div></div>
+      <div class="stat"><div class="k">Refundable deposit</div><div class="v" id="qDeposit">—</div></div>
+      <div class="stat"><div class="k">Total to send</div><div class="v" id="qTotal">—</div></div>
+      <div class="stat"><div class="k">Availability</div><div class="v" style="font-size:14px" id="qAvail">—</div></div>
+    </div>
+    <label>Controller (defaults to your connected wallet)</label>
+    <input type="text" id="bootController" placeholder="0x…" spellcheck="false">
+    <label>X25519 messaging pubkey (optional — leave empty to autogenerate a placeholder; the agent runtime can rotate it later)</label>
+    <input type="text" id="bootX25519" placeholder="0x… (32 bytes)" spellcheck="false">
+    <div class="pillrow" style="margin-top:16px"><button class="btn primary" id="bootBtn">🚀 Boot agent</button></div>
+    <div class="hint">The deposit is returned if you later burn the agent. The controller can pause, limit and revoke the agent at any time — that's the point.</div>
+  </div>
+</section>
+
+<!-- ══ TASKS ══ -->
+<section id="tab-tasks" style="display:none">
+  <div class="card">
+    <h2>Scheduled tasks</h2>
+    <p>On-chain tasks the keeper market executes. Look up by creator/agent-wallet address; pause/cancel/fund work when your connected wallet is the task creator.</p>
+    <div class="row">
+      <div style="flex:2"><label>Creator or agent wallet address</label><input type="text" id="taskOwner" placeholder="0x…" spellcheck="false"></div>
+      <div style="flex:0"><button class="btn primary" id="loadTasksBtn">Load tasks</button></div>
+    </div>
+    <div id="taskList" style="margin-top:16px"><div class="empty">No address loaded.</div></div>
+  </div>
+</section>
+
+<!-- ══ NETWORK ══ -->
+<section id="tab-network" style="display:none">
+  <div class="card">
+    <h2>Live network</h2>
+    <p>Read directly from Ramestta mainnet in your browser.</p>
+    <div class="grid g4">
+      <div class="stat"><div class="k">.rama names</div><div class="v" id="nNames">—</div></div>
+      <div class="stat"><div class="k">RNS revenue</div><div class="v" id="nRev">—</div></div>
+      <div class="stat"><div class="k">Sponsorship pool</div><div class="v" id="nPool">—</div></div>
+      <div class="stat"><div class="k">Scheduler tasks</div><div class="v" id="nTasks">—</div></div>
+    </div>
+    <h3 class="sub">Contracts (mainnet 1370)</h3>
+    <table><tbody id="nContracts"></tbody></table>
+    <div class="hint">RPC: blockchain.ramestta.com · Explorer: <a href="https://ramascan.com" target="_blank" rel="noreferrer">ramascan.com</a> · Portal: <a href="https://agents.ramestta.com" target="_blank" rel="noreferrer">agents.ramestta.com</a></div>
+  </div>
+</section>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script src="ethers.umd.min.js"></script>
+<script>
+"use strict";
+const $ = (id) => document.getElementById(id);
+const E = ethers;
+
+// ── chain + contracts ────────────────────────────────────────────────────────
+const CHAIN = { id: 1370, hex: "0x55a", name: "Ramestta Mainnet", rpc: "https://blockchain.ramestta.com", explorer: "https://ramascan.com" };
+const ADDR = {
+  rns:        "0xde4ACb2fB2b69c96c2312887c2656Ee5Ff6290EB",
+  bootHelper: "0x0781EAc0486cB177864586e4DfC2077E8B88bBEa",
+  treasury:   "0x2a5EBF934D72d3b4b65F6d4A85dCB8639C8cfD8d",
+  permissions:"0xA1C395a5AeF2b584982A1cEC27F10f33D29e25a0",
+  scheduler:  "0xb01dcA10Dff6242c46d69CBB9EfcC514a9995F23",
+  insurance:  "0x24fb0B59356799bc985AC6B0476Da9e9180de3bf",
+  multisig:   "0x4194c014BBd3513558E94Aac01d5bB4144Bc360C",
+  memory:     "0x571e0C76594348038ed4B9361211Ea2A50bd24ac",
+  reputation: "0x774a0da308cD92a09BCF08ff896733fdBDC7786a",
+};
+const DEPLOY_BLOCK = 35880000; // just before the 2026-07-11 agent-os deploys
+
+const ABI = {
+  rns: ["function getPriceForName(string,uint256) view returns (uint256)", "function resolve(string) view returns (address)", "function computeNamehash(string) pure returns (bytes32)", "function totalRegistrations() view returns (uint256)", "function totalRevenue() view returns (uint256)"],
+  boot: ["function getAgent(bytes32) view returns (tuple(bytes32 nameHash, address controller, address wallet, bytes32 metadataURI, uint256 bootedAt))", "function bootAgent(string,address,bytes32,bytes32) payable returns (address)", "function agentCount() view returns (uint256)"],
+  treasury: ["function quotaOf(bytes32) view returns (tuple(uint8 tier, uint256 monthlyLimit, uint256 usedThisPeriod, uint256 periodStart, uint256 deposit))", "function remainingQuota(bytes32) view returns (uint256)", "function poolBalance() view returns (uint256)", "function minDeposit() view returns (uint256)", "function emergencyMode() view returns (bool)"],
+  perms: ["function limitsOf(bytes32) view returns (tuple(uint256 maxPerTx, uint256 maxPerDay, uint256 maxPerMonth, uint256 approvalAbove, bool readOnly, bool paused))", "function setLimits(bytes32,(uint256,uint256,uint256,uint256,bool,bool))", "function allowTarget(bytes32,address,bool)", "function allowRecipient(bytes32,address,bool)", "function allowToken(bytes32,address,bool)", "function isTargetAllowed(bytes32,address) view returns (bool)", "function issueSessionKey(bytes32,address,uint64,uint256)", "function revokeSessionKey(bytes32,address)", "function revokeAll(bytes32)", "function pauseAgent(bytes32)", "function unpauseAgent(bytes32)", "function pendingRequests(bytes32) view returns (bytes32[])", "function approve(bytes32)", "function reject(bytes32)", "function sessionKeyOf(bytes32,address) view returns (tuple(address key, uint64 expiresAt, uint256 spendCap, uint256 spent))", "event ApprovalRequested(bytes32 indexed requestId, bytes32 indexed agentNameHash, address target, uint256 value)"],
+  scheduler: ["function tasksOf(address) view returns (bytes32[])", "function getTask(bytes32) view returns (tuple(address creator, address target, bytes callData, uint256 executeAt, uint256 interval, uint256 gasLimit, uint256 maxFee, uint256 balance, uint8 triggerType, bytes condition, uint64 runs, uint64 maxRuns, bool paused, bool active))", "function pauseTask(bytes32)", "function unpauseTask(bytes32)", "function cancelTask(bytes32)", "function fundTask(bytes32) payable", "function taskCount() view returns (uint256)"],
+  multisig: ["function getOwners() view returns (address[])", "function required() view returns (uint256)", "function transactionCount() view returns (uint256)", "function getTransaction(uint256) view returns (address to, uint256 value, bytes data, bool executed, uint256 confirmations)", "function isOwner(address) view returns (bool)", "function confirmed(uint256,address) view returns (bool)", "function submit(address,uint256,bytes) returns (uint256)", "function confirm(uint256)", "function revoke(uint256)", "function execute(uint256)"],
+};
+
+const rpc = new E.JsonRpcProvider(CHAIN.rpc, CHAIN.id, { staticNetwork: true });
+const R = {
+  rns: new E.Contract(ADDR.rns, ABI.rns, rpc),
+  boot: new E.Contract(ADDR.bootHelper, ABI.boot, rpc),
+  treasury: new E.Contract(ADDR.treasury, ABI.treasury, rpc),
+  perms: new E.Contract(ADDR.permissions, ABI.perms, rpc),
+  scheduler: new E.Contract(ADDR.scheduler, ABI.scheduler, rpc),
+  multisig: new E.Contract(ADDR.multisig, ABI.multisig, rpc),
+};
+
+let wallet = null, signer = null; // browser wallet
+let cur = { name: null, nameHash: null, controller: null, wallet: null };
+
+// ── helpers ──────────────────────────────────────────────────────────────────
+const fmt = (wei, dp = 4) => (+E.formatEther(wei)).toLocaleString(undefined, { maximumFractionDigits: dp });
+const short = (a) => a ? a.slice(0, 8) + "…" + a.slice(-6) : "—";
+const nameHash = (n) => E.keccak256(E.toUtf8Bytes(n.toLowerCase().trim().replace(/\.rama$/, "") + ".rama"));
+const cleanName = (n) => n.toLowerCase().trim().replace(/\.rama$/, "");
+const TIERS = ["None", "New", "Verified", "Trusted"];
+
+function toast(msg, cls = "") {
+  const d = document.createElement("div");
+  d.className = cls; d.innerHTML = msg;
+  $("toast").appendChild(d);
+  setTimeout(() => d.remove(), 9000);
+}
+const explorerTx = (h) => `<a href="${CHAIN.explorer}/tx/${h}" target="_blank" rel="noreferrer">${h.slice(0, 14)}…</a>`;
+
+async function sendTx(contract, fn, args, opts = {}) {
+  if (!signer) { toast("Connect your wallet first", "bad"); throw new Error("no wallet"); }
+  const c = contract.connect(signer);
+  toast(`Signing <b>${fn}</b>…`);
+  const tx = await c[fn](...args, opts);
+  toast(`Sent ${explorerTx(tx.hash)} — waiting…`);
+  const rc = await tx.wait();
+  toast(`✓ <b>${fn}</b> confirmed in block ${rc.blockNumber}`, "ok");
+  return rc;
+}
+const err = (e) => { console.error(e); toast((e.reason || e.shortMessage || e.message || "failed").slice(0, 220), "bad"); };
+
+// ── wallet connect ───────────────────────────────────────────────────────────
+async function connect() {
+  if (!window.ethereum) { toast("No wallet extension found. Install RamaPay extension or MetaMask.", "bad"); return; }
+  try {
+    const bp = new E.BrowserProvider(window.ethereum);
+    await bp.send("eth_requestAccounts", []);
+    const net = await bp.getNetwork();
+    if (Number(net.chainId) !== CHAIN.id) {
+      try { await bp.send("wallet_switchEthereumChain", [{ chainId: CHAIN.hex }]); }
+      catch (e) {
+        await bp.send("wallet_addEthereumChain", [{ chainId: CHAIN.hex, chainName: CHAIN.name, nativeCurrency: { name: "RAMA", symbol: "RAMA", decimals: 18 }, rpcUrls: [CHAIN.rpc], blockExplorerUrls: [CHAIN.explorer] }]);
+      }
+    }
+    wallet = new E.BrowserProvider(window.ethereum);
+    signer = await wallet.getSigner();
+    const a = await signer.getAddress();
+    $("connectBtn").textContent = short(a);
+    $("netpill").textContent = "Ramestta 1370 ✓";
+    toast(`Connected ${short(a)}`, "ok");
+  } catch (e) { err(e); }
+}
+$("connectBtn").onclick = connect;
+if (window.ethereum) { window.ethereum.on?.("accountsChanged", () => location.reload()); window.ethereum.on?.("chainChanged", () => location.reload()); }
+
+// ── tabs ─────────────────────────────────────────────────────────────────────
+$("tabs").addEventListener("click", (ev) => {
+  const b = ev.target.closest("button"); if (!b) return;
+  document.querySelectorAll("#tabs button").forEach((x) => x.classList.toggle("on", x === b));
+  ["agent", "inbox", "boot", "tasks", "network"].forEach((t) => $(`tab-${t}`).style.display = (b.dataset.tab === t ? "" : "none"));
+  if (b.dataset.tab === "network") refreshNetwork().catch(() => {});
+});
+
+// ── my agent ─────────────────────────────────────────────────────────────────
+async function loadAgent() {
+  const n = cleanName($("agentName").value); if (!n) return;
+  try {
+    const nh = nameHash(n);
+    const info = await R.boot.getAgent(nh);
+    if (info.wallet === E.ZeroAddress) {
+      // Not on the current BootHelper — fall back to RNS so legacy/external agents don't look "broken".
+      const resolved = await R.rns.resolve(n).catch(() => E.ZeroAddress);
+      $("agentSummary").style.display = "none"; $("manageWrap").style.display = "none";
+      if (resolved === E.ZeroAddress) toast(`<b>${n}.rama</b> isn't registered yet — you can create it under “Boot an Agent”.`, "");
+      else toast(`<b>${n}.rama</b> resolves to <b>${short(resolved)}</b>, but it isn't a standard agent booted on the current BootHelper (it's a legacy or externally-managed name), so in-console management isn't available for it. Agents booted with the current version load fully here.`, "");
+      return;
+    }
+    cur = { name: n, nameHash: nh, controller: info.controller, wallet: info.wallet };
+    const [bal, q, rem, lim] = await Promise.all([
+      rpc.getBalance(info.wallet), R.treasury.quotaOf(nh), R.treasury.remainingQuota(nh), R.perms.limitsOf(nh),
+    ]);
+    $("agWallet").innerHTML = `<a href="${CHAIN.explorer}/address/${info.wallet}" target="_blank" rel="noreferrer">${short(info.wallet)}</a>`;
+    $("agController").textContent = short(info.controller);
+    $("agBalance").innerHTML = `${fmt(bal)} <small>RAMA</small>`;
+    $("agStatus").innerHTML = lim.paused ? `<span class="tag bad">PAUSED</span>` : lim.readOnly ? `<span class="tag warn">READ-ONLY</span>` : `<span class="tag ok">ACTIVE</span>`;
+    $("agTier").textContent = TIERS[Number(q.tier)] || "?";
+    $("agQuota").innerHTML = `${rem.toLocaleString()} <small>/ ${Number(q.monthlyLimit).toLocaleString()} tx/mo</small>`;
+    $("agDeposit").innerHTML = `${fmt(q.deposit)} <small>RAMA</small>`;
+    $("agBooted").textContent = info.bootedAt > 0n ? new Date(Number(info.bootedAt) * 1000).toLocaleDateString() : "—";
+    $("curLimits").textContent = `Current: maxTx ${fmt(lim.maxPerTx)} · day ${fmt(lim.maxPerDay)} · month ${fmt(lim.maxPerMonth)} · approval above ${fmt(lim.approvalAbove)} RAMA` + (lim.readOnly ? " · READ-ONLY" : "");
+    $("limMaxTx").value = E.formatEther(lim.maxPerTx); $("limMaxDay").value = E.formatEther(lim.maxPerDay);
+    $("limMaxMonth").value = E.formatEther(lim.maxPerMonth); $("limApprove").value = E.formatEther(lim.approvalAbove);
+    $("limReadOnly").checked = lim.readOnly;
+    $("agentSummary").style.display = "";
+    const me = signer ? (await signer.getAddress()).toLowerCase() : "";
+    const isCtrl = me && me === info.controller.toLowerCase();
+    $("manageWrap").style.display = "";
+    document.querySelectorAll("#manageWrap .btn").forEach((b) => b.disabled = !isCtrl);
+    if (!isCtrl) toast(signer ? "Viewing only — connected wallet is not this agent's controller" : "Connect the controller wallet to manage", "");
+    $("inboxName").value = n;
+    $("taskOwner").value = info.wallet;
+    // make this a shareable public profile URL (?agent=name)
+    try { history.replaceState(null, "", `?agent=${encodeURIComponent(n)}`); } catch (_) {}
+  } catch (e) { err(e); }
+}
+$("loadAgentBtn").onclick = loadAgent;
+$("agentName").addEventListener("keydown", (e) => e.key === "Enter" && loadAgent());
+
+const P = () => { if (!cur.nameHash) { toast("Load an agent first", "bad"); throw new Error("no agent"); } return cur.nameHash; };
+$("pauseBtn").onclick = () => sendTx(R.perms, "pauseAgent", [P()]).then(loadAgent).catch(err);
+$("unpauseBtn").onclick = () => sendTx(R.perms, "unpauseAgent", [P()]).then(loadAgent).catch(err);
+$("revokeAllBtn").onclick = () => sendTx(R.perms, "revokeAll", [P()]).catch(err);
+$("setLimitsBtn").onclick = async () => {
+  try {
+    const lim = [
+      E.parseEther($("limMaxTx").value || "0"), E.parseEther($("limMaxDay").value || "0"),
+      E.parseEther($("limMaxMonth").value || "0"), E.parseEther($("limApprove").value || "0"),
+      $("limReadOnly").checked, false,
+    ];
+    await sendTx(R.perms, "setLimits", [P(), lim]); loadAgent();
+  } catch (e) { err(e); }
+};
+const alFn = { target: "allowTarget", recipient: "allowRecipient", token: "allowToken" };
+$("allowBtn").onclick = () => sendTx(R.perms, alFn[$("alType").value], [P(), E.getAddress($("alAddr").value.trim()), true]).catch(err);
+$("denyBtn").onclick = () => sendTx(R.perms, alFn[$("alType").value], [P(), E.getAddress($("alAddr").value.trim()), false]).catch(err);
+$("checkAllowBtn").onclick = async () => { try { toast(`Target allowed: <b>${await R.perms.isTargetAllowed(P(), E.getAddress($("alAddr").value.trim()))}</b>`); } catch (e) { err(e); } };
+$("issueSkBtn").onclick = () => {
+  const exp = Math.floor(Date.now() / 1000) + Number($("skDays").value || 7) * 86400;
+  sendTx(R.perms, "issueSessionKey", [P(), E.getAddress($("skAddr").value.trim()), exp, E.parseEther($("skCap").value || "0")]).catch(err);
+};
+$("revokeSkBtn").onclick = () => sendTx(R.perms, "revokeSessionKey", [P(), E.getAddress($("skAddr").value.trim())]).catch(err);
+$("checkSkBtn").onclick = async () => {
+  try {
+    const sk = await R.perms.sessionKeyOf(P(), E.getAddress($("skAddr").value.trim()));
+    $("skInfo").textContent = sk.key === E.ZeroAddress ? "No such session key" :
+      `expires ${new Date(Number(sk.expiresAt) * 1000).toLocaleString()} · cap ${fmt(sk.spendCap)} · spent ${fmt(sk.spent)} RAMA`;
+  } catch (e) { err(e); }
+};
+
+// ── inbox ────────────────────────────────────────────────────────────────────
+async function loadInbox() {
+  const n = cleanName($("inboxName").value); if (!n) return;
+  const nh = nameHash(n);
+  const box = $("inboxList");
+  box.innerHTML = `<div class="empty">Loading…</div>`;
+  try {
+    const ids = await R.perms.pendingRequests(nh);
+    if (!ids.length) { box.innerHTML = `<div class="empty">✓ No pending approvals for <b>${n}.rama</b>.</div>`; return; }
+    // enrich from events
+    const logs = await R.perms.queryFilter(R.perms.filters.ApprovalRequested(null, nh), DEPLOY_BLOCK);
+    const detail = {}; logs.forEach((l) => detail[l.args.requestId] = l.args);
+    let html = `<table><thead><tr><th>Request</th><th>Target</th><th>Value</th><th></th></tr></thead><tbody>`;
+    for (const id of ids) {
+      const d = detail[id];
+      html += `<tr><td class="mono">${id.slice(0, 14)}…</td><td class="mono">${d ? short(d.target) : "?"}</td><td>${d ? fmt(d.value) + " RAMA" : "?"}</td>
+        <td><button class="btn small ok" data-approve="${id}">Approve</button> <button class="btn small bad" data-reject="${id}">Reject</button></td></tr>`;
+    }
+    box.innerHTML = html + "</tbody></table>";
+    box.querySelectorAll("[data-approve]").forEach((b) => b.onclick = () => sendTx(R.perms, "approve", [b.dataset.approve]).then(loadInbox).catch(err));
+    box.querySelectorAll("[data-reject]").forEach((b) => b.onclick = () => sendTx(R.perms, "reject", [b.dataset.reject]).then(loadInbox).catch(err));
+  } catch (e) { box.innerHTML = `<div class="empty">Failed to load.</div>`; err(e); }
+}
+$("loadInboxBtn").onclick = loadInbox;
+
+// ── boot wizard ──────────────────────────────────────────────────────────────
+let quote = null;
+async function doQuote() {
+  const n = cleanName($("bootName").value); if (!n) return;
+  try {
+    const [price, dep, resolved] = await Promise.all([
+      R.rns.getPriceForName(n, 1), R.treasury.minDeposit(), R.rns.resolve(n).catch(() => E.ZeroAddress),
+    ]);
+    quote = { name: n, total: price + dep };
+    $("qPrice").innerHTML = `${fmt(price, 2)} <small>RAMA</small>`;
+    $("qDeposit").innerHTML = `${fmt(dep, 2)} <small>RAMA</small>`;
+    $("qTotal").innerHTML = `${fmt(price + dep, 2)} <small>RAMA</small>`;
+    $("qAvail").innerHTML = resolved === E.ZeroAddress ? `<span class="tag ok">AVAILABLE</span>` : `<span class="tag bad">TAKEN</span>`;
+  } catch (e) { err(e); }
+}
+$("quoteBtn").onclick = doQuote;
+$("bootName").addEventListener("keydown", (e) => e.key === "Enter" && doQuote());
+$("bootBtn").onclick = async () => {
+  try {
+    if (!signer) { toast("Connect your wallet first", "bad"); return; }
+    const n = cleanName($("bootName").value);
+    if (!quote || quote.name !== n) await doQuote();
+    const controller = $("bootController").value.trim() || await signer.getAddress();
+    let x = $("bootX25519").value.trim();
+    if (!x) { const r = new Uint8Array(32); crypto.getRandomValues(r); x = E.hexlify(r); }
+    const rc = await sendTx(R.boot, "bootAgent", [n, E.getAddress(controller), x, E.ZeroHash], { value: quote.total });
+    toast(`🎉 <b>${n}.rama</b> booted! Load it on the My Agent tab.`, "ok");
+    $("agentName").value = n;
+  } catch (e) { err(e); }
+};
+
+// ── tasks ────────────────────────────────────────────────────────────────────
+const TRIGGER = ["?", "Time", "Block", "Condition"];
+async function loadTasks() {
+  const a = $("taskOwner").value.trim(); if (!a) return;
+  const box = $("taskList"); box.innerHTML = `<div class="empty">Loading…</div>`;
+  try {
+    const ids = await R.scheduler.tasksOf(E.getAddress(a));
+    if (!ids.length) { box.innerHTML = `<div class="empty">No tasks registered by ${short(a)}.</div>`; return; }
+    let html = `<table><thead><tr><th>Task</th><th>Trigger</th><th>Next due</th><th>Runs</th><th>Balance</th><th>Status</th><th></th></tr></thead><tbody>`;
+    for (const id of ids) {
+      const t = await R.scheduler.getTask(id);
+      const st = !t.active ? `<span class="tag">DONE</span>` : t.paused ? `<span class="tag warn">PAUSED</span>` : `<span class="tag ok">ACTIVE</span>`;
+      const due = t.triggerType === 1n || Number(t.triggerType) === 1 ? new Date(Number(t.executeAt) * 1000).toLocaleString() : `#${t.executeAt}`;
+      html += `<tr><td class="mono">${id.slice(0, 12)}…</td><td>${TRIGGER[Number(t.triggerType)] || "?"}</td><td style="font-size:12px">${due}</td>
+        <td>${t.runs}/${t.maxRuns == 0n ? "∞" : t.maxRuns}</td><td>${fmt(t.balance)} RAMA</td><td>${st}</td>
+        <td>${t.active ? `<button class="btn small" data-p="${id}">${t.paused ? "Unpause" : "Pause"}</button> <button class="btn small bad" data-c="${id}">Cancel</button>` : ""}</td></tr>`;
+    }
+    box.innerHTML = html + "</tbody></table>";
+    box.querySelectorAll("[data-p]").forEach((b) => b.onclick = async () => {
+      const t = await R.scheduler.getTask(b.dataset.p);
+      sendTx(R.scheduler, t.paused ? "unpauseTask" : "pauseTask", [b.dataset.p]).then(loadTasks).catch(err);
+    });
+    box.querySelectorAll("[data-c]").forEach((b) => b.onclick = () => sendTx(R.scheduler, "cancelTask", [b.dataset.c]).then(loadTasks).catch(err));
+  } catch (e) { box.innerHTML = `<div class="empty">Failed to load.</div>`; err(e); }
+}
+$("loadTasksBtn").onclick = loadTasks;
+
+// (Ops multisig panel lives in the unlisted admin console, not the public portal.)
+
+// ── network tab ──────────────────────────────────────────────────────────────
+async function refreshNetwork() {
+  try {
+    const [names, rev, pool, tasks] = await Promise.all([
+      R.rns.totalRegistrations(), R.rns.totalRevenue(), R.treasury.poolBalance(), R.scheduler.taskCount(),
+    ]);
+    $("nNames").textContent = names.toString();
+    $("nRev").innerHTML = `${fmt(rev, 1)} <small>RAMA</small>`;
+    $("nPool").innerHTML = `${fmt(pool, 1)} <small>RAMA</small>`;
+    $("nTasks").textContent = tasks.toString();
+    $("nContracts").innerHTML = Object.entries({ "RAMA Name Service": ADDR.rns, "Agent BootHelper": ADDR.bootHelper, "Agent Treasury": ADDR.treasury, "Agent Permissions": ADDR.permissions, Scheduler: ADDR.scheduler, "SLA Insurance Pool": ADDR.insurance, "Agent Memory (swarm state)": ADDR.memory, "Agent Reputation": ADDR.reputation, "Ops MultiSig (2-of-3)": ADDR.multisig })
+      .map(([k, v]) => `<tr><td>${k}</td><td class="mono"><a href="${CHAIN.explorer}/address/${v}" target="_blank" rel="noreferrer">${v}</a></td></tr>`).join("");
+  } catch (e) { err(e); }
+}
+refreshNetwork().catch(() => {});
+
+// ── deep links: /console/?agent=<name>&tab=<tab> → shareable public agent profile ──
+function activateTab(name) {
+  const btn = document.querySelector(`#tabs button[data-tab="${name}"]`);
+  if (!btn) return;
+  document.querySelectorAll("#tabs button").forEach((x) => x.classList.toggle("on", x === btn));
+  ["agent", "inbox", "boot", "tasks", "network"].forEach((t) => $(`tab-${t}`).style.display = (t === name ? "" : "none"));
+  if (name === "network") refreshNetwork().catch(() => {});
+}
+(function bootstrapFromUrl() {
+  const q = new URLSearchParams(location.search);
+  const tab = q.get("tab"); if (tab) activateTab(tab);
+  const ag = q.get("agent");
+  if (ag) { $("agentName").value = ag; loadAgent().catch(() => {}); }
+})();
+</script>
+</body>
+</html>

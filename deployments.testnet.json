@@ -1,0 +1,61 @@
+{
+  "network": "ramesttaTestnet",
+  "chainId": 1371,
+  "deployer": "0x289550077E53Ee2aAcdB04AAd6f77ad8DEB7Af39",
+  "deployedAt": "2026-07-10T22:18:25.569Z",
+  "contracts": {
+    "MCTToken": "0x6A549948750F6F4922E8387C2433E6dC89868C04",
+    "MumbleChatRegistry": "0x59e007402B7D334880C0C13C4F59A0A6d4b862ab",
+    "RAMANameService": "0xd4dD70192d35A5cad329366bB59D2e74C269d51F",
+    "Scheduler": "0x7F06Dbc7da19869eFbcebEC7506EB1631CcB46B4",
+    "MockTarget": "0x6e7c8bd27e174d8ca91F45a4a31ea072a438aFAE",
+    "AgentTreasury": "0xBf768906eee9B40ABF1fe0DAe083a6B83e1a3bb5",
+    "AgentBootHelper": "0x428c2eFacf4795acb6cA43ac7014210aa79faE1f",
+    "AgentPermissions": "0xd7316c355C0ae8f82eb6902a42A06Ab61712Cb73",
+    "AgentBootHelperV2": "0xA8DFCCB29a4c4B0AAd792a486835AA3Bb502930b",
+    "SLAInsurancePool": "0xA3f1EB9c9c379949BD13a9236043b39f6ab39962"
+  },
+  "schedulerSmoke": {
+    "taskId": "0xcd831c277cdca368869ae53a744e23cd41638b18bf4aefcdfa160f49ad44afc2",
+    "executedAt": "2026-07-10T22:35:20.521Z"
+  },
+  "firstAgent": {
+    "name": "yieldhunter.rama",
+    "wallet": "0xC5e5A5c9FD85eDD009a1DF7d7F08C42B72EE9EC7",
+    "bootedAt": "2026-07-10T22:45:56.421Z"
+  },
+  "yieldHunterDemo": {
+    "strategy": "0xFeEcf25C7eE8869041C90C5AD211f36f605E5cBa",
+    "vaults": {
+      "alpha": "0x451d3a1CE463aB605CaFfc27e0f954aE13e80F80",
+      "beta": "0x91848aB836acc42021254DAa464F19Cd8F6E97E4",
+      "gamma": "0x5759DA8b72655102310cedDBce084aD90940FD78"
+    },
+    "watchdogTaskId": "0xa1728f8021e3b160607d06f7c67c33d011e24a24d5b0c1fac009d8260f1e99c7"
+  },
+  "guardedAgent": {
+    "name": "guarded.rama",
+    "wallet": "0x59b5ee43596492ecf6A0aB028E24B69Bb64F4C92",
+    "nameHash": "0x9b6075b1f9df676130741f1352f6414528e96bcd5b8c6fc85aaf796b4b5b96c1"
+  },
+  "subscriptionDemo": {
+    "service": "0x8AC6F2f8A08dC338061FD0E9e697994767a814f0",
+    "price": "10000000000000000",
+    "period": 60,
+    "taskId": "0x464149aeb095df63359fedee17b3dc7db12f4946897a591530713fe021ab3bde"
+  },
+  "multisig": {
+    "address": "0xF3A9477C3D88aFaeebeE9B3308C24fF061735A67",
+    "threshold": 2,
+    "owners": [
+      "0x8FF1A1eDc2cba87f5aef0730dA80ffd2F832c48F",
+      "0x5551C22196028143B226c5F9154f21A6cdC23637",
+      "0xE6Fc622F265F5263108737FC3AB6ab7FaAb1b807"
+    ],
+    "deployedAt": "2026-07-12T03:48:27.931Z"
+  },
+  "AgentMemory": {
+    "address": "0x7A12139cc034b2d10bde14Ae5C09549bfDa671c6",
+    "deployedAt": "2026-07-12T06:14:33.788Z"
+  }
+}

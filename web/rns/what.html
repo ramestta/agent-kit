@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/favicon.svg"><link rel="apple-touch-icon" href="/favicon.svg">
+<title>Rama Name Service — your name on Ramestta</title>
+<meta name="description" content="A .rama name is a short, readable identity that replaces your long 0x… wallet address. Search live availability, register once, and use it everywhere on Ramestta.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/site/rns.css">
+<style>
+/* premium hero */
+.rhero{position:relative;padding:clamp(52px,8vw,96px) 0 clamp(30px,4vw,54px);text-align:center;overflow:hidden}
+.chips{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.chips span{position:absolute;font-family:'Space Grotesk',monospace;font-weight:600;color:rgba(155,135,252,.14);white-space:nowrap;font-size:1.1rem;animation:float 18s linear infinite}
+@keyframes float{0%{transform:translateY(20px)}50%{transform:translateY(-20px)}100%{transform:translateY(20px)}}
+.rhero .inner{position:relative;z-index:1}
+.rhero h1{font-size:clamp(2.6rem,6vw,4.4rem)}
+.rhero .lead{margin:20px auto 0}
+/* search box */
+.search{max-width:600px;margin:34px auto 0;position:relative}
+.searchbox{display:flex;align-items:center;background:var(--card2);border:1px solid var(--bdh);border-radius:16px;padding:8px 8px 8px 20px;box-shadow:0 12px 40px rgba(124,107,242,.18);transition:.2s}
+.searchbox:focus-within{border-color:var(--pri);box-shadow:0 12px 44px rgba(124,107,242,.38)}
+.searchbox input{flex:1;background:none;border:none;outline:none;color:var(--tx);font:600 1.25rem 'Space Grotesk',var(--font);min-width:0}
+.searchbox input::placeholder{color:var(--tx3)}
+.searchbox .suffix{font:600 1.25rem 'Space Grotesk',var(--font);color:var(--gold);margin:0 12px 0 2px}
+.searchbox button{border:none;cursor:pointer;background:linear-gradient(135deg,var(--pri),var(--pri2));color:#fff;font-weight:700;font-size:1rem;padding:13px 24px;border-radius:12px;box-shadow:0 8px 20px rgba(124,107,242,.4);transition:.18s}
+.searchbox button:hover{transform:translateY(-1px)}
+.searchbox button:disabled{opacity:.6;cursor:wait}
+.result{margin-top:16px;min-height:30px;font-weight:600;font-size:1.05rem;display:flex;align-items:center;justify-content:center;gap:10px}
+.result .pill{border-radius:999px;padding:8px 18px;display:inline-flex;align-items:center;gap:9px;border:1px solid}
+.result.ok .pill{color:var(--green);border-color:rgba(63,185,143,.4);background:rgba(63,185,143,.08)}
+.result.no .pill{color:var(--red);border-color:rgba(242,105,107,.4);background:rgba(242,105,107,.08)}
+.result.info .pill{color:var(--tx2);border-color:var(--bd);background:rgba(255,255,255,.03)}
+.result a.go{color:#fff;background:linear-gradient(135deg,var(--pri),var(--pri2));padding:8px 18px;border-radius:999px;font-size:.92rem;box-shadow:0 6px 16px rgba(124,107,242,.4)}
+/* live stats */
+.lstats{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:34px}
+.lstat{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px 22px;min-width:150px}
+.lstat .n{font-family:var(--disp);font-weight:600;font-size:1.7rem;line-height:1;background:linear-gradient(120deg,var(--pri2),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lstat .l{color:var(--tx2);font-size:.82rem;margin-top:6px}
+.live-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2s infinite;margin-right:6px}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+</style>
+<style id="mnav">@media(max-width:860px){
+  header .hin{position:relative}
+  header nav.top{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;gap:4px;background:rgba(7,7,12,.98);backdrop-filter:blur(18px);border-bottom:1px solid var(--bd);padding:12px 16px;max-height:78vh;overflow-y:auto;box-shadow:0 20px 40px rgba(0,0,0,.5)}
+  header nav.top.open{display:flex}
+  header nav.top a{padding:13px 14px;font-size:1rem;border-radius:12px;white-space:normal}
+  .burger{display:grid;place-items:center}
+  .hin{padding-left:18px;padding-right:18px}
+}
+@media(max-width:520px){
+  header .btn.pri{padding:9px 14px;font-size:.85rem}
+  .lname .sub{display:none}
+  h1{font-size:2.2rem!important}
+}</style>
+</head>
+<body>
+<div class="amb"></div><div class="grid-bg"></div>
+<header><div class="hin">
+  <a class="logo" href="/"><span class="mark">.r</span><span class="lname">Rama <span class="sub">Name Service</span></span></a>
+  <nav class="top">
+    <a href="/what.html" class="active">What it is</a><a href="/how.html">How to register</a><a href="/pricing.html">Pricing</a><a href="/use-cases.html">Use cases</a><a href="/">Search names</a>
+  </nav>
+  <a class="btn pri" href="/">Open app →</a>
+  <button class="burger" onclick="document.querySelector('nav.top').classList.toggle('open')">☰</button>
+</div></header>
+
+<!-- PREMIUM INTERACTIVE HERO -->
+<section class="rhero">
+  <div class="chips" id="chips"></div>
+  <div class="inner wrap">
+    <div class="chip"><span class="live-dot"></span> Live on Ramestta · chain 1370</div>
+    <h1 style="margin-top:20px">Your name, <span class="g">on-chain.</span></h1>
+    <p class="lead center">Replace your long <code>0x7a3f…9c21</code> address with a name people can actually read — like
+    <code>ravi.rama</code>. Check if yours is free, right here.</p>
+
+    <div class="search">
+      <div class="searchbox">
+        <input id="q" type="text" placeholder="yourname" spellcheck="false" autocomplete="off" maxlength="30">
+        <span class="suffix">.rama</span>
+        <button id="checkBtn">Check</button>
+      </div>
+      <div class="result info" id="result"><span class="pill">Type a name and hit Check — it queries the blockchain live.</span></div>
+    </div>
+
+    <div class="lstats" id="lstats">
+      <div class="lstat"><div class="n" id="stNames">—</div><div class="l">names registered</div></div>
+      <div class="lstat"><div class="n" id="stActive">—</div><div class="l">active on-chain</div></div>
+      <div class="lstat"><div class="n">100</div><div class="l">RAMA / year · any length</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- problem -->
+<section class="wrap">
+  <div class="center" style="max-width:700px"><p class="eyebrow">Why it matters</p>
+  <h2 style="margin-top:10px">Addresses are made for machines, not people</h2></div>
+  <div class="cmp">
+    <div class="cmp-box bad">
+      <div class="cmp-h">😖 A raw address</div>
+      <div class="addrbig">0x7a3f9C21bE04aa8De…9c21</div>
+      <ul><li>Impossible to remember</li><li>Easy to mistype — one wrong character means lost funds</li><li>Tells nobody who you are</li></ul>
+    </div>
+    <div class="cmp-box good">
+      <div class="cmp-h">😀 A .rama name</div>
+      <div class="addrbig g">ravi.rama</div>
+      <ul><li>Readable and memorable</li><li>Share it with confidence — no scary strings</li><li>It's <b>you</b> — a real identity</li></ul>
+    </div>
+  </div>
+</section>
+
+<!-- what it does -->
+<section class="band"><div class="wrap">
+  <div class="center" style="max-width:700px"><p class="eyebrow">One name, everywhere</p>
+  <h2 style="margin-top:10px">What a single name <span class="g">unlocks</span></h2></div>
+  <div class="g3">
+    <div class="f"><div class="ic">💸</div><b>Receive payments</b><p>People send to <code>ravi.rama</code> instead of copying a long address. Fewer mistakes, more trust.</p></div>
+    <div class="f"><div class="ic">🪪</div><b>Be recognised</b><p>Use it as your handle across Ramestta apps, profiles and wallets — a consistent identity.</p></div>
+    <div class="f"><div class="ic">🤖</div><b>Name your AI agent</b><p>Autonomous agents boot with a <code>.rama</code> name too, so you always know which agent is which.</p></div>
+    <div class="f"><div class="ic">🌿</div><b>Create sub-names</b><p>Own <code>brand.rama</code>? Hand out <code>pay.brand.rama</code>, <code>team.brand.rama</code> and more.</p></div>
+    <div class="f"><div class="ic">🔁</div><b>Point it anywhere</b><p>Change which address your name resolves to any time — the name stays, the destination is yours.</p></div>
+    <div class="f"><div class="ic">🔒</div><b>You own it</b><p>Registration is on-chain. The name is yours for the term you choose; renew to keep it.</p></div>
+  </div>
+</div></section>
+
+<!-- steps teaser -->
+<section class="wrap">
+  <div class="center" style="max-width:680px"><p class="eyebrow">Getting one is easy</p>
+  <h2 style="margin-top:10px">Search · Register · Use</h2></div>
+  <div class="steps3">
+    <div class="s"><span class="n">1</span><b>Search</b><p>Type the name you want and see if it's free.</p></div>
+    <div class="s"><span class="n">2</span><b>Register</b><p>Pick a term and confirm one wallet transaction.</p></div>
+    <div class="s"><span class="n">3</span><b>Use it</b><p>Point it at your address and share it anywhere.</p></div>
+  </div>
+  <div class="cta" style="justify-content:center;margin-top:34px"><a class="btn pri" href="/how.html">See the full steps →</a><a class="btn ghost" href="/pricing.html">View pricing</a></div>
+</section>
+
+<section class="band"><div class="wrap center">
+  <h2>Ready to claim your name?</h2>
+  <p class="lead center" style="margin-top:12px">Good names go fast. Check yours above, or open the app.</p>
+  <div class="cta" style="justify-content:center"><a class="btn pri" href="/">Open the app →</a></div>
+</div></section>
+
+<footer><div class="wrap">
+  <div class="logo"><span class="mark">.r</span><span class="lname">Rama <span class="sub">Name Service</span></span></div>
+  <p style="margin-top:12px;max-width:60ch">Rama Name Service — readable <code>.rama</code> identities for people, businesses and AI agents on the Ramestta blockchain (chain 1370).</p>
+  <div class="fnav"><a href="/what.html">What it is</a><a href="/how.html">How to register</a><a href="/pricing.html">Pricing</a><a href="/use-cases.html">Use cases</a><a href="/">Search names</a><a href="https://ramestta.com">Ramestta.com</a><a href="https://agents.ramestta.com">Agent OS</a></div>
+</div></footer>
+
+<script>
+const RPC='https://blockchain.ramestta.com', RNS='0xde4ACb2fB2b69c96c2312887c2656Ee5Ff6290EB';
+const SEL={avail:'0x965306aa',price:'0xd7d50191',total:'0xf4f62b6d',active:'0xb116acc8'};
+function encStr(s){const b=new TextEncoder().encode(s);const pad=Math.ceil(b.length/32)*32||32;let h='';for(let i=0;i<pad;i++)h+=(i<b.length?b[i].toString(16).padStart(2,'0'):'00');return {len:b.length.toString(16).padStart(64,'0'),data:h};}
+const u256=n=>BigInt(n).toString(16).padStart(64,'0');
+async function ethCall(data){const r=await fetch(RPC,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',id:1,method:'eth_call',params:[{to:RNS,data},'latest']})});const j=await r.json();if(j.error)throw new Error(j.error.message);return j.result;}
+function fmtRama(wei){return (Number(BigInt(wei))/1e18).toLocaleString(undefined,{maximumFractionDigits:0});}
+async function loadStats(){try{const[t,a]=await Promise.all([ethCall(SEL.total),ethCall(SEL.active)]);stNames.textContent=BigInt(t).toString();stActive.textContent=BigInt(a).toString();}catch(e){stNames.textContent='—';}}
+const clean=s=>s.toLowerCase().replace(/[^a-z0-9-]/g,'');
+async function check(){
+  let name=clean(q.value.trim()); q.value=name;
+  const res=document.getElementById('result');
+  if(name.length<3){res.className='result info';res.innerHTML='<span class="pill">Names need at least 3 characters.</span>';return;}
+  const btn=document.getElementById('checkBtn');btn.disabled=true;
+  res.className='result info';res.innerHTML='<span class="pill">Checking the blockchain…</span>';
+  try{
+    const {len,data}=encStr(name);
+    const availRaw=await ethCall(SEL.avail+u256(32)+len+data);
+    const available=BigInt(availRaw)===1n;
+    if(available){
+      let price='100';
+      try{const pr=await ethCall(SEL.price+u256(64)+u256(1)+len+data);price=fmtRama(pr);}catch(e){}
+      res.className='result ok';
+      res.innerHTML='<span class="pill">✓ <b>'+name+'.rama</b> is available — '+price+' RAMA/yr</span> <a class="go" href="/?name='+encodeURIComponent(name)+'">Register →</a>';
+    }else{
+      res.className='result no';
+      res.innerHTML='<span class="pill">✗ <b>'+name+'.rama</b> is already taken</span> <a class="go" href="/">Try another →</a>';
+    }
+  }catch(e){
+    res.className='result info';
+    res.innerHTML='<span class="pill">Couldn\'t reach the chain — <a href="/" style="color:var(--pri2)">check in the app →</a></span>';
+  }finally{btn.disabled=false;}
+}
+document.getElementById('checkBtn').addEventListener('click',check);
+document.getElementById('q').addEventListener('keydown',e=>{if(e.key==='Enter')check();});
+// floating name chips
+(function(){const names=['ravi.rama','pay.rama','acme.rama','bot.rama','shop.rama','vault.rama','dev.rama','nova.rama','ceo.rama','games.rama'];const c=document.getElementById('chips');names.forEach((n,i)=>{const s=document.createElement('span');s.textContent=n;s.style.left=(6+Math.random()*88)+'%';s.style.top=(6+Math.random()*82)+'%';s.style.fontSize=(0.9+Math.random()*1.3)+'rem';s.style.animationDelay=(-Math.random()*18)+'s';s.style.animationDuration=(14+Math.random()*10)+'s';c.appendChild(s);});})();
+loadStats();
+</script>
+</body>
+</html>

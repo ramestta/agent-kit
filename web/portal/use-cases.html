@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/favicon.svg">
+<title>What you can build with Ramestta AI Agent OS — real examples</title>
+<meta name="description" content="Real everyday examples of safe AI agents: auto-savings, bill payers, allowances, monitoring alerts, treasury automation and agent teams — each one bounded by rules you control.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#07070c; --card:rgba(20,20,30,.55); --card2:rgba(28,28,40,.7);
+  --tx:#F5F5FA; --tx2:#a2a2b4; --tx3:#6d6d80; --bd:rgba(255,255,255,.08); --bdh:rgba(255,255,255,.18);
+  --pri:#7c6bf2; --pri2:#9b87fc; --gold:#e8b955; --green:#3fb98f; --blue:#6db6ff;
+  --font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; --disp:'Fraunces',Georgia,serif;
+  --r:18px; --maxw:1120px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--tx);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+.amb{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.amb::before{content:'';position:absolute;top:-15%;left:50%;transform:translateX(-50%);width:1100px;height:700px;background:radial-gradient(ellipse at center,rgba(124,107,242,.18),transparent 60%);filter:blur(20px)}
+.grid-bg{position:fixed;inset:0;z-index:-1;background-image:linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse 80% 55% at 50% 0,#000,transparent 75%)}
+header{position:sticky;top:0;z-index:50;background:rgba(7,7,12,.72);backdrop-filter:blur(18px);border-bottom:1px solid var(--bd)}
+.hin{max-width:var(--maxw);margin:0 auto;padding:0 24px;height:64px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.logo{display:flex;align-items:center;gap:10px}
+.mark{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,var(--pri),var(--pri2));display:grid;place-items:center;font-family:var(--disp);font-weight:700;color:#fff;font-size:1.1rem}
+.lname{font-family:var(--disp);font-weight:600;font-size:1.16rem}.lname .sub{font-family:var(--font);font-weight:500;font-size:.92rem;color:var(--tx2)}
+nav.top{display:flex;gap:2px;align-items:center;overflow-x:auto;scrollbar-width:none}nav.top::-webkit-scrollbar{display:none}
+nav.top a{color:var(--tx2);font-size:.9rem;font-weight:600;padding:8px 12px;border-radius:999px;white-space:nowrap;transition:.15s}
+nav.top a:hover{color:var(--tx);background:rgba(124,107,242,.12)}nav.top a.active{color:var(--tx);background:rgba(124,107,242,.16)}
+.btn{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:.92rem;padding:11px 20px;border-radius:999px;cursor:pointer;border:1px solid transparent;transition:.18s;white-space:nowrap}
+.btn.pri{background:linear-gradient(135deg,var(--pri),var(--pri2));color:#fff;box-shadow:0 8px 24px rgba(124,107,242,.35)}
+.btn.pri:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(124,107,242,.5)}
+.btn.ghost{background:rgba(255,255,255,.04);border-color:var(--bd);color:var(--tx)}.btn.ghost:hover{border-color:var(--bdh);background:rgba(255,255,255,.07)}
+.burger{display:none;background:none;border:1px solid var(--bd);border-radius:10px;width:42px;height:38px;color:var(--tx);font-size:1.15rem;cursor:pointer}
+section{padding:clamp(48px,7vw,84px) 0}
+.eyebrow{color:var(--gold);font-size:.76rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+h1{font-family:var(--disp);font-weight:600;font-size:clamp(2.3rem,5vw,3.5rem);line-height:1.06;letter-spacing:-.02em}
+h2{font-family:var(--disp);font-weight:600;font-size:clamp(1.6rem,3.2vw,2.2rem);letter-spacing:-.01em}
+h1 .g,h2 .g{background:linear-gradient(120deg,var(--pri2),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{font-size:1.15rem;color:var(--tx2);max-width:62ch}
+.center{text-align:center;margin-left:auto;margin-right:auto}
+.hero{padding:clamp(46px,7vw,82px) 0 clamp(10px,2vw,26px);text-align:center}
+.hero .chip{display:inline-flex;align-items:center;gap:8px;font-size:.74rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--pri2);border:1px solid rgba(124,107,242,.3);background:rgba(124,107,242,.08);border-radius:999px;padding:7px 15px;margin-bottom:20px}
+.hero .lead{margin:20px auto 0}
+.cta{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:30px}
+.seghead{display:flex;align-items:baseline;gap:14px;margin-bottom:8px}
+.seghead .tag{font-size:.78rem;font-weight:700;color:var(--pri2);border:1px solid rgba(124,107,242,.28);background:rgba(124,107,242,.08);border-radius:999px;padding:4px 12px}
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:26px}
+.uc{background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:28px;backdrop-filter:blur(10px);transition:.2s;display:flex;flex-direction:column}
+.uc:hover{transform:translateY(-4px);border-color:var(--bdh);background:var(--card2)}
+.uc .top{display:flex;align-items:center;gap:12px}
+.uc .ic{width:48px;height:48px;flex:0 0 48px;border-radius:13px;display:grid;place-items:center;font-size:1.5rem;background:rgba(124,107,242,.12);border:1px solid rgba(124,107,242,.25)}
+.uc h3{font-size:1.2rem;font-weight:650}
+.uc .story{color:var(--tx2);margin-top:14px;font-size:.98rem}
+.uc .story b{color:var(--tx)}
+.uc .safe{margin-top:16px;font-size:.86rem;color:var(--green);background:rgba(63,185,143,.08);border:1px solid rgba(63,185,143,.22);border-radius:12px;padding:10px 14px;display:flex;gap:8px}
+.band{background:linear-gradient(180deg,rgba(124,107,242,.07),transparent);border-top:1px solid var(--bd);border-bottom:1px solid var(--bd)}
+.reassure{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:30px}
+.reassure div{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:18px;text-align:center}
+.reassure .e{font-size:1.4rem}.reassure b{display:block;margin-top:8px;font-size:.95rem}.reassure span{color:var(--tx2);font-size:.82rem}
+footer{border-top:1px solid var(--bd);padding:40px 0;color:var(--tx3);font-size:.9rem}
+.fnav{display:flex;gap:20px;flex-wrap:wrap;margin-top:14px}.fnav a{color:var(--tx2)}.fnav a:hover{color:var(--tx)}
+@media(max-width:860px){nav.top{display:none}.burger{display:grid;place-items:center}.cards{grid-template-columns:1fr}.reassure{grid-template-columns:1fr 1fr}}
+</style>
+<style id="mnav">@media(max-width:860px){
+  header .hin{position:relative}
+  header nav.top{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;gap:4px;background:rgba(7,7,12,.98);backdrop-filter:blur(18px);border-bottom:1px solid var(--bd);padding:12px 16px;max-height:78vh;overflow-y:auto;box-shadow:0 20px 40px rgba(0,0,0,.5)}
+  header nav.top.open{display:flex}
+  header nav.top a{padding:13px 14px;font-size:1rem;border-radius:12px;white-space:normal}
+  .burger{display:grid;place-items:center}
+  .hin{padding-left:18px;padding-right:18px}
+}
+@media(max-width:520px){
+  header .btn.pri{padding:9px 14px;font-size:.85rem}
+  .lname .sub{display:none}
+  h1{font-size:2.2rem!important}
+}</style>
+</head>
+<body>
+<div class="amb"></div><div class="grid-bg"></div>
+<header>
+  <div class="hin">
+    <a class="logo" href="/"><span class="mark">R</span><span class="lname">Agent <span class="sub">OS</span></span></a>
+    <nav class="top">
+      <a href="/what.html">What it is</a><a href="/how.html">How it works</a><a href="/use-cases.html" class="active">Use cases</a><a href="/capabilities.html">Capabilities</a><a href="/contracts.html">Contracts</a><a href="/docs.html">Docs</a><a href="/console/">Console</a><a href="/safety.html">Safety</a>
+    </nav>
+    <a class="btn pri" href="/console/">Open Console →</a>
+    <button class="burger" onclick="document.querySelector('nav.top').classList.toggle('open')">☰</button>
+  </div>
+</header>
+
+<section class="hero wrap">
+  <div class="chip">● Real examples</div>
+  <h1>What can you actually <span class="g">build with it?</span></h1>
+  <p class="lead">Think of an agent as a tireless helper with a debit card and a rulebook. Here are everyday jobs it can do —
+  reliably, on time, and always inside the limits you set.</p>
+  <div class="cta"><a class="btn pri" href="#everyone">For everyone ↓</a><a class="btn ghost" href="#business">For businesses &amp; builders</a></div>
+</section>
+
+<!-- FOR EVERYONE -->
+<section class="wrap" id="everyone">
+  <div class="seghead"><span class="tag">👤 For everyone</span></div>
+  <h2>Money chores that just… take care of themselves</h2>
+  <div class="cards">
+    <div class="uc">
+      <div class="top"><span class="ic">🐷</span><h3>Auto-savings &amp; steady investing</h3></div>
+      <p class="story"><b>"Put ₹500 into my savings every Friday, and buy a little crypto each month."</b> The agent does it on schedule — no reminders, no missed weeks. Great for building a habit without thinking about it.</p>
+      <div class="safe"><span>🛡️</span><span>Capped per week/month. It can never touch more than you allow.</span></div>
+    </div>
+    <div class="uc">
+      <div class="top"><span class="ic">🧾</span><h3>Bill &amp; subscription payer</h3></div>
+      <p class="story"><b>"Pay my rent on the 1st and my subscriptions when they're due."</b> On-time, every time — even if you're travelling or asleep. No late fees, no forgetting.</p>
+      <div class="safe"><span>🛡️</span><span>Only the exact recipients you approved. Unknown payees are blocked.</span></div>
+    </div>
+    <div class="uc">
+      <div class="top"><span class="ic">👨‍👩‍👧</span><h3>Allowance &amp; family transfers</h3></div>
+      <p class="story"><b>"Send my kid their weekly allowance, and my parents a fixed amount monthly."</b> Set it once; it runs itself. Everyone gets paid on time without you lifting a finger.</p>
+      <div class="safe"><span>🛡️</span><span>Fixed amounts, fixed schedule. Change or stop it anytime in one click.</span></div>
+    </div>
+    <div class="uc">
+      <div class="top"><span class="ic">🔔</span><h3>Watch &amp; react</h3></div>
+      <p class="story"><b>"If this price drops below X, buy a little — and always tell me what happened."</b> The agent watches 24/7 and acts within your rules, then reports back.</p>
+      <div class="safe"><span>🛡️</span><span>Small pre-approved actions run automatically; anything bigger waits for your "yes".</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOR BUSINESS -->
+<section class="band" id="business">
+  <div class="wrap">
+    <div class="seghead"><span class="tag">🏢 For businesses &amp; builders</span></div>
+    <h2>Automation that doesn't depend on a server you babysit</h2>
+    <div class="cards">
+      <div class="uc">
+        <div class="top"><span class="ic">💼</span><h3>Payroll &amp; recurring payouts</h3></div>
+        <p class="story"><b>"Pay the team every 1st and 15th."</b> The schedule lives on-chain, so it runs even if your laptop is off — no cron job, no missed cycles, a clear public record for accounting.</p>
+        <div class="safe"><span>🛡️</span><span>Bounded budget + approvals for anything out of the ordinary.</span></div>
+      </div>
+      <div class="uc">
+        <div class="top"><span class="ic">📈</span><h3>Treasury rebalancing / yield</h3></div>
+        <p class="story"><b>"Keep our funds earning the best safe rate, and rebalance weekly."</b> The agent decides; the on-chain scheduler guarantees it actually runs — inside strict, code-enforced limits.</p>
+        <div class="safe"><span>🛡️</span><span>Allowed contracts + spend caps mean it can only do the job you scoped.</span></div>
+      </div>
+      <div class="uc">
+        <div class="top"><span class="ic">🤝</span><h3>A team of agents</h3></div>
+        <p class="story"><b>"One agent finds the work, another executes, a third checks it."</b> Agents coordinate over end-to-end encrypted messaging and shared on-chain memory — a small workforce, each with its own name and wallet.</p>
+        <div class="safe"><span>🛡️</span><span>Every agent is separately bounded and separately revocable.</span></div>
+      </div>
+      <div class="uc">
+        <div class="top"><span class="ic">🏛️</span><h3>DAO / community operations</h3></div>
+        <p class="story"><b>"Run our recurring grants and rewards without a human clicking each time."</b> Transparent, on-time, and verifiable — the community can audit every action on-chain.</p>
+        <div class="safe"><span>🛡️</span><span>Rules + a 24-hour timelock on changes mean no surprise moves.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REASSURANCE -->
+<section class="wrap">
+  <div class="center" style="max-width:640px"><p class="eyebrow">Every example above</p>
+  <h2 style="margin-top:8px">…is safe for the same four reasons</h2></div>
+  <div class="reassure">
+    <div><div class="e">💳</div><b>Spend limits</b><span>Per-tx, per-day, per-month caps enforced by code</span></div>
+    <div><div class="e">✅</div><b>Allow-lists</b><span>Only approved contacts &amp; actions</span></div>
+    <div><div class="e">✋</div><b>Human approval</b><span>Big moves wait for your "yes"</span></div>
+    <div><div class="e">⏸️</div><b>Instant off-switch</b><span>Pause or revoke anytime</span></div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap center">
+    <p class="eyebrow">Ready?</p>
+    <h2 style="margin-top:8px">Start with one small, useful agent</h2>
+    <p class="lead center" style="margin-top:12px">Give it a tiny budget and a single job. Watch it work. Grow from there.</p>
+    <div class="cta"><a class="btn pri" href="/console/">Open the Console →</a><a class="btn ghost" href="/how.html">See how it works</a></div>
+  </div>
+</section>
+
+<footer><div class="wrap">
+  <div class="logo"><span class="mark">R</span><span class="lname">Agent <span class="sub">OS</span></span></div>
+  <p style="margin-top:12px;max-width:60ch">Ramestta AI Agent OS — a safe home for autonomous AI agents on the Ramestta blockchain (chain 1370). A human is always in control.</p>
+  <div class="fnav"><a href="/what.html">What it is</a><a href="/how.html">How it works</a><a href="/use-cases.html">Use cases</a><a href="/docs.html">Developer docs</a><a href="/console/">Console</a><a href="https://ramestta.com">Ramestta.com</a></div>
+</div></footer>
+</body>
+</html>

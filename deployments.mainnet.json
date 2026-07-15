@@ -1,0 +1,58 @@
+{
+  "network": "ramesttaMainnet",
+  "chainId": 1370,
+  "deployer": "0xED1D757Ecc8007a2c0050DF6aA63A2a713e666fd",
+  "deployedAt": "2026-07-11T14:16:51.489Z",
+  "liveDependencies": {
+    "rns": "0x5119Cdf1876B6bd30854D06E94966c8dc0745649",
+    "registry": "0xabd36A48abbEb5EF692A4841FF2896cf6eC9420F",
+    "mct": "0xb8A3CcD263248Cad0de86dA271D46fc963c60C68"
+  },
+  "contracts": {
+    "AgentTreasury": "0x8ff1BD571105c9FFE126F527b631AEda39C3F34A",
+    "AgentPermissions": "0xE8d529E83473c4Cc20808D730863D75a6EB1e3c7",
+    "AgentBootHelper": "0x9e6bF61a135353eCC06CCc27DD13Bd7bFFA379a1",
+    "Scheduler": "0x29A7ead60d0e6943a3544C93d698a6aff35e1eEf",
+    "SLAInsurancePool": "0xcA6A7611779FeCE0b9bcbCbE8e40f964E7b51593",
+    "AgentReputation": "0x5b04140F1B90Cbe186C8b51a263D528a3B5e84c1"
+  },
+  "params": {
+    "treasury": {
+      "minDeposit": "1000000000000000000",
+      "refundPerTx": "200000000000000",
+      "emergencyThreshold": "500000000000000000"
+    }
+  },
+  "firstAgent": {
+    "name": "genesis.rama",
+    "wallet": "0x7d0bd491e2C6027023D45E81927E3ccE4BEa8291",
+    "nameHash": "0xb6f6a7629859cd038a1355a102196dd714a93352b568994e309eed76bff36d74",
+    "bootTx": "0xff055b656c9e110a9b09430a97efd98ca8ddd12791fd5eb1cfeef6c749c0e9f7"
+  },
+  "multisig": {
+    "address": "0x4194c014BBd3513558E94Aac01d5bB4144Bc360C",
+    "threshold": 2,
+    "owners": [
+      "0x8FF1A1eDc2cba87f5aef0730dA80ffd2F832c48F",
+      "0x5551C22196028143B226c5F9154f21A6cdC23637",
+      "0xE6Fc622F265F5263108737FC3AB6ab7FaAb1b807"
+    ],
+    "deployedAt": "2026-07-12T03:49:51.540Z"
+  },
+  "AgentMemory": {
+    "address": "0xB35B5eDD90589eC47FC56942b8B1e0a20cfbb5Ba",
+    "deployedAt": "2026-07-12T07:05:43.209Z"
+  },
+  "reputation": {
+    "verifiedThreshold": "100",
+    "trustedThreshold": "1000",
+    "reporterCap": "500",
+    "reporters": [
+      "0xDf92F686343008f8B9A77c2aCc885A6B78A7714B",
+      "0xa17D9EFfbb3bA989F6B65E172Af8fA4544bB3990",
+      "0xa95C6fD58B6D67F7708396039a4975f7EA51acF6"
+    ],
+    "tierManagerWired": false,
+    "note": "wire Treasury.setTierManager on next audited Treasury redeploy"
+  }
+}

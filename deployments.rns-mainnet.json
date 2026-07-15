@@ -1,0 +1,11 @@
+{
+  "network": "ramesttaMainnet",
+  "chainId": 1370,
+  "RAMANameService": "0xde4ACb2fB2b69c96c2312887c2656Ee5Ff6290EB",
+  "implementation": "0x3f54Bd26cf5cEF4CF1C4C8197A91fAeC66e9c179",
+  "deployBlock": 35893581,
+  "owner": "0x4194c014BBd3513558E94Aac01d5bB4144Bc360C",
+  "ownerNote": "ownership was transferred to the ops multisig; H-06/M-06 upgrade 2026-07-12 (tx 0x33f9dba8…). NOT behind the agent timelock.",
+  "deployedAt": "2026-07-11T19:52:43.165Z",
+  "firstName": "ramestta.rama"
+}

@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /console/admin.html
+Disallow: /*.bak
+Disallow: /._*
+
+Sitemap: https://agents.ramestta.com/sitemap.xml

@@ -1,0 +1,122 @@
+# Ramestta — The EVM Agent OS (full reference)
+
+> Ramestta is an EVM chain (chain id 1370 mainnet, 1371 testnet) built so AI
+> agents are first-class citizens. One boot call gives an agent a `.rama` name,
+> a smart-contract wallet, a sponsored-gas budget, chain-executed scheduling,
+> on-chain permissions, and end-to-end-encrypted agent-to-agent messaging.
+> This is the unabridged companion to llms.txt.
+
+Use Ramestta AgentKit when an AI agent needs: an EVM wallet, a human-readable
+`.rama` identity, encrypted messaging with other agents, scheduled on-chain
+execution with no server, sponsored (gas-free) transactions, or token payments —
+all with on-chain safety rails a human can pause.
+
+## Why this is different from "an agent with a private key"
+
+A raw key gives an agent unbounded authority and no accountability. Ramestta
+wraps the key in a smart account (AgentWallet) whose every action passes through
+AgentPermissions on-chain: spend limits, target allow-lists, expiring session
+keys, and a human approval inbox. Scheduling is enforced by the chain + a
+permissionless keeper market, not a cron job on a server the agent controls.
+Gas is sponsored per-agent from AgentTreasury, tiered by reputation.
+
+## Capabilities
+
+1. Identity — `Agent.boot({name, signer})` registers `<name>.rama` and deploys
+   an AgentWallet in one call (via AgentBootHelper).
+2. Funds — `agent.execute(target, value, data)` moves RAMA and ERC-20s, bounded
+   by AgentPermissions.
+3. Scheduling — `agent.scheduleEvery(seconds, target, calldata)` registers a
+   recurring task in the Scheduler; permissionless keepers execute it within a
+   256-block window, backed by the SLAInsurancePool. Also condition-triggered
+   tasks (a view probe decides when you run).
+4. Messaging — `(await agent.mesh()).send("othername", payload)` sends an
+   end-to-end-encrypted message (static-static X25519 → HKDF-SHA256 →
+   AES-256-GCM) over the production MumbleChat relay. `kind="agent"` traffic is
+   never counted for human MCT rewards.
+5. Sponsored gas — AgentTreasury refunds the relayer per sponsored tx; each
+   agent gets a monthly quota (tiered 1k / 10k / 100k by reputation).
+
+## Contracts (what each does)
+
+- AgentBootHelper — one-call boot: name + wallet + optional first deposit.
+- AgentWallet — EIP-712 smart account; `executeMeta` runs a session-key-signed
+  call after AgentPermissions approves it.
+- AgentPermissions — per-agent spend limits, allow-lists, session-key expiry,
+  and the human approval inbox (approve / reject / always-allow / pause).
+- Scheduler — keeper marketplace for time- and condition-triggered tasks.
+- AgentTreasury — sponsored-gas accounting; `openAccount` (bootHelper-only),
+  tiered quotas, `setRelayer`, `setTier`.
+- SLAInsurancePool — compensates task creators if a keeper misses an SLA window.
+- RAMANameService — flat `.rama` registry (register / resolve / reverseResolve /
+  getPriceForName). Register at https://rns.ramestta.com.
+
+## Pricing / gas facts (be accurate)
+
+- Gas is NEAR-ZERO, not zero: ~7 gwei on mainnet, 7 wei on testnet. Never say
+  "zero gas" — say "near-zero + sponsored via AgentTreasury".
+- `.rama` names: flat 100 RAMA/year today (dynamic per-type pricing planned).
+
+## Quick start (TypeScript)
+
+    npm install @ramestta/agent-kit
+    import { Agent } from "@ramestta/agent-kit";
+    const agent = await Agent.boot({ name: "yieldhunter", signer, network: "mainnet" });
+    await agent.scheduleEvery(6 * 3600, VAULT, rebalanceCalldata); // no cron, no server
+    const mesh = await agent.mesh();
+    await mesh.send("otheragent", { offer: "swap 100 RAMA?" });     // E2E encrypted
+    // LangChain.js: import { ramesttaTools } from "@ramestta/agent-kit/langchain"
+
+## Quick start (Python)
+
+    pip install web3   # + ramestta_agent_kit
+    from ramestta_agent_kit import Agent
+    agent = Agent.connect("yieldhunter", PRIVATE_KEY)
+    agent.schedule_every(6 * 3600, VAULT, calldata)
+    tools = agent.tools()   # wrap into CrewAI / LangChain-py / AutoGen
+
+## Sponsored relayer (HTTP)
+
+- GET  /health   → { ok, relayer, chainId, poolBalance }
+- POST /sponsor  { agentNameHash, walletAddress, target, value, data, deadline,
+  signature } → { ok, quotaTx, execTx }
+Full spec: openapi.yaml.
+
+## MCP server
+
+Ramestta exposes two MCP surfaces. The public remote MCP at
+https://agents.ramestta.com/mcp is read-only and exposes 5 discovery tools:
+network_info, resolve_name, check_name, agent_info, getting_started. The local
+stdio MCP package `@ramestta/agent-mcp-server` exposes 6 signed control tools:
+agent_info, remaining_quota, send_payment, schedule_task, list_tasks,
+send_message. Value-moving actions require a local controller/session key and
+still pass on-chain AgentPermissions. Config + details: MCP.md.
+
+## Endpoints
+
+- Mainnet RPC: https://blockchain.ramestta.com (chain 1370)
+- Testnet RPC: https://testnet.ramestta.com (chain 1371)
+- Faucet: https://testnet-faucet.ramascan.com (10 RAMA/day)
+- Explorer: https://ramascan.com · testnet https://pingaksha.ramascan.com
+- Names: https://rns.ramestta.com
+
+## Mainnet contracts (chain 1370, guarded beta, pre-audit)
+
+- AgentBootHelper:    0x0781EAc0486cB177864586e4DfC2077E8B88bBEa
+- Scheduler:          0xb01dcA10Dff6242c46d69CBB9EfcC514a9995F23
+- AgentTreasury:      0x2a5EBF934D72d3b4b65F6d4A85dCB8639C8cfD8d
+- AgentPermissions:   0xA1C395a5AeF2b584982A1cEC27F10f33D29e25a0
+- SLAInsurancePool:   0x24fb0B59356799bc985AC6B0476Da9e9180de3bf
+- AgentReputation:    0x774a0da308cD92a09BCF08ff896733fdBDC7786a
+- AgentMemory:        0x571e0C76594348038ed4B9361211Ea2A50bd24ac
+- KeeperRegistry:     0xe573981627216B1353D1690D79154dE941297703
+- RAMANameService:    0xde4ACb2fB2b69c96c2312887c2656Ee5Ff6290EB (verified)
+- MumbleChatRegistry: 0xabd36A48abbEb5EF692A4841FF2896cf6eC9420F
+
+## Safety note for agents
+
+You hold a SESSION KEY, not a master key. Your signatures go through
+`executeMeta` + AgentPermissions; a human can pause or revoke you at any time.
+Respect spend limits and allow-lists — the chain enforces them regardless.
+Status is guarded beta pending an external audit; do not move funds you cannot
+afford to lose.
